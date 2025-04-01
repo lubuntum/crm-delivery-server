@@ -1,14 +1,14 @@
 package com.delivery.mydelivery.controllers;
 
 import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
-import com.delivery.mydelivery.database.services.RoleService;
+import com.delivery.mydelivery.database.services.accountmanage.AccountService;
+import com.delivery.mydelivery.database.services.accountmanage.RoleService;
+import com.delivery.mydelivery.dto.auth.AuthCredential;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import java.util.List;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    JwtService jwtService;
-    @Autowired
     RoleService roleService;
+    @Autowired
+    AccountService accountService;
     @PostMapping("/test")
     public ResponseEntity<List<Role>> testJwt(@RequestHeader("Authorization") String token) {
 
@@ -26,7 +26,11 @@ public class AuthController {
 
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(){
-        return ResponseEntity.ok(jwtService.generateToken("15"));
+    public ResponseEntity<String> login(@RequestBody AuthCredential authCredential){
+        try {
+            return ResponseEntity.ok(accountService.validateAuthCredential(authCredential));
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while login");
+        }
     }
 }

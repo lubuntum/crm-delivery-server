@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -30,5 +31,9 @@ public class Employee {
     private Organization organization;
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private Account account;
+    @Override
+    public String toString(){
+        return String.format("%s %s %s", name, secondName, patronymic);
+    }
 
 }

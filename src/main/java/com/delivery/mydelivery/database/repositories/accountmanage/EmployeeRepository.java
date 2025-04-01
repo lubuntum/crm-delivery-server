@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.database.repositories;
+package com.delivery.mydelivery.database.repositories.accountmanage;
 
 import com.delivery.mydelivery.database.entities.accountmanage.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;

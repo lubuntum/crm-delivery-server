@@ -1,7 +1,7 @@
-package com.delivery.mydelivery.database.services;
+package com.delivery.mydelivery.database.services.accountmanage;
 
 import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
-import com.delivery.mydelivery.database.repositories.RoleRepository;
+import com.delivery.mydelivery.database.repositories.accountmanage.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

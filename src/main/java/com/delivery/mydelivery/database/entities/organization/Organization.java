@@ -25,4 +25,9 @@ public class Organization {
     private LocalDate createdAt;
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees;
+
+    @Override
+    public String toString(){
+        return getName();
+    }
 }

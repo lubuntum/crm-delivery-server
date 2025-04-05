@@ -3,6 +3,7 @@ package com.delivery.mydelivery.controllers;
 import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.RoleService;
+import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.dto.auth.AuthCredential;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class AuthController {
     RoleService roleService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    JwtService jwtService;
     @PostMapping("/test")
     public ResponseEntity<List<Role>> testJwt(@RequestHeader("Authorization") String token) {
 
@@ -32,5 +35,14 @@ public class AuthController {
         } catch (Exception e) {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while login");
         }
+    }
+    @PostMapping("/update-password")
+    public ResponseEntity<Boolean> updatePassword(@RequestHeader("Authorization") String token,
+                                                  @RequestBody AuthCredential authCredential) {
+        return ResponseEntity.ok(accountService.updatePassword(Long.valueOf(jwtService.extractSubject(token)), authCredential.getPassword()));
+    }
+    @GetMapping("/account-data")
+    public ResponseEntity<AccountData> getAccountData(@RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(accountService.getAccountData(Long.valueOf(jwtService.extractSubject(token))));
     }
 }

@@ -7,11 +7,13 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class OrganizationControllerConfig implements WebMvcConfigurer {
+public class OrderControllerConfig implements WebMvcConfigurer {
     @Autowired
     JwtValidationInterceptor jwtValidationInterceptor;
+
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/organization/*");
+        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/orders/*");
     }
 }

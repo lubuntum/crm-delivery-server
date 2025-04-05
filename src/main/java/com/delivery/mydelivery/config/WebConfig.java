@@ -1,6 +1,6 @@
 package com.delivery.mydelivery.config;
 
-import com.delivery.mydelivery.services.jwt.JwtValidationInterceptor;
+import com.delivery.mydelivery.config.interceptors.JwtValidationInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -7,11 +7,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class OrganizationControllerConfig implements WebMvcConfigurer {
+public class AuthControllerConfig implements WebMvcConfigurer {
     @Autowired
     JwtValidationInterceptor jwtValidationInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/organization/*");
+        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/auth/account-data");
+        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/auth/update-password");
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<ClientOrder, Long> {
     @Query("SELECT new com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO( " +
             "co.id, co.address, co.comment, co.createdAt, co.status.name, " +
-            "c.name, c.secondName, c.patronymic, c.email, c.phone ) " +
+            "c.id ,c.name, c.secondName, c.patronymic, c.email, c.phone ) " +
             "FROM ClientOrder co " +
             "JOIN co.client c " +
             "WHERE co.organization.id=:organizationId")

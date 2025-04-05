@@ -1,5 +1,7 @@
-package com.delivery.mydelivery.services.jwt;
+package com.delivery.mydelivery.config.interceptors;
 
+import com.delivery.mydelivery.services.jwt.JwtService;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,15 @@ public class JwtValidationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String jwtToken = request.getHeader("Authorization");
-        if(jwtService.isValid(jwtToken.replace("Bearer ", "")))
-            return true;
-        else {
+        try {
+            String jwtToken = request.getHeader("Authorization");
+            if(jwtToken != null &&  jwtService.isValid(jwtToken.replace("Bearer ", "")))
+                return true;
+            else {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
+                return false;
+            }
+        } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
             return false;
         }

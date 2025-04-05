@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -17,17 +18,17 @@ import java.time.LocalDate;
 @Table(name = "client_order")
 public class ClientOrder {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "address")
     private String address;
     @Column(name = "comment")
     private String comment;
-    @Column(name = "created_at")
-    LocalDate createdAt;
+    @Column(name = "created_at", updatable = false, nullable = false)
+    LocalDateTime createdAt;
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id")
     private Client client;
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
@@ -35,4 +36,8 @@ public class ClientOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
+    @PrePersist
+    protected void onCreate(){
+        createdAt = LocalDateTime.now();
+    }
 }

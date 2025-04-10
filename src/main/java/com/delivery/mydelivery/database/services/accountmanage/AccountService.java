@@ -1,6 +1,7 @@
 package com.delivery.mydelivery.database.services.accountmanage;
 
 import com.delivery.mydelivery.database.entities.accountmanage.Account;
+import com.delivery.mydelivery.database.entities.organization.Organization;
 import com.delivery.mydelivery.database.repositories.accountmanage.AccountRepository;
 import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.dto.auth.AuthCredential;
@@ -19,9 +20,9 @@ public class AccountService {
     //TODO make custom exception, now returned 200 with empty request if some error occurred
     public String validateAuthCredential(AuthCredential authCredential) {
         Account account = accountRepository.findByEmail(authCredential.getEmail());
-        if (account == null) return null;
+        if (account == null) throw new RuntimeException();
         if(!PasswordValidationUtil.validatePassword(authCredential.getPassword(), account.getPassword()))
-            return null;
+            throw new RuntimeException();
         return jwtService.generateToken(String.valueOf(account.getId()));
     }
     public AccountData getAccountData(Long id) {
@@ -32,6 +33,10 @@ public class AccountService {
         account.setPassword(PasswordValidationUtil.hashPassword(updatedPass));
         accountRepository.save(account);
         return true;
+    }
+    public Organization getOrganizationByAccountId(Long id) {
+        Account account = accountRepository.findById(id).orElseThrow(NullPointerException::new);
+        return account.getEmployee().getOrganization();
     }
     //TODO Unstable test
     public Account createAccount(Account account) {

@@ -33,7 +33,7 @@ public class AuthController {
         try {
             return ResponseEntity.ok(accountService.validateAuthCredential(authCredential));
         } catch (Exception e) {
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while login");
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Wrong email or password");
         }
     }
     @PostMapping("/update-password")

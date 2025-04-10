@@ -34,7 +34,7 @@ public class OrderService {
         ClientOrder clientOrder = new ClientOrder();
         Status status = statusService.getStatusByName(StatusEnum.CREATED);
         Client client = clientService.getClientById(clientOrderDTO.getClientId());
-        //Fix it later, insert id by key of employee who create order
+        //TODO Fix it later, insert id by key of employee who create order
         Organization organization = organizationService.getOrganizationById(1L);
 
         clientOrder.setAddress(clientOrderDTO.getAddress());

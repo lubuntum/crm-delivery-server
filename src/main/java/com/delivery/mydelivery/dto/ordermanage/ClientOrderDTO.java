@@ -23,6 +23,7 @@ public class ClientOrderDTO {
     private String clientPatronymic;
     private String clientEmail;
     private String clientPhone;
+    private Long organizationId;
 
     public Client extractClientData(){
         Client client = new Client();

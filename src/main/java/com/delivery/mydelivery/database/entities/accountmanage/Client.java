@@ -24,7 +24,7 @@ public class Client {
     //TODO make the same in DB
     @Column(name = "email", unique = true)
     private String email;
-    @Column(name = "phone", unique = true)
+    @Column(name = "phone", unique = true, nullable = false)
     private String phone;
 
 }

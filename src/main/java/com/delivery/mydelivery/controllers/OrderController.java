@@ -1,10 +1,14 @@
 package com.delivery.mydelivery.controllers;
 
+import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
+import com.delivery.mydelivery.database.entities.ordermanage.status.Status;
+import com.delivery.mydelivery.database.entities.ordermanage.status.StatusEnum;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.ClientService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
+import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +31,11 @@ public class OrderController {
         clientOrderDTO.setClientId(clientService.createClientIfNotExists(clientOrderDTO.extractClientData()));
         clientOrderDTO.setOrganizationId(accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId());
         return ResponseEntity.ok(orderService.createOrder(clientOrderDTO));
+    }
+    @PostMapping("/change-order-status")
+    ResponseEntity<StatusEnum> changeOrderStatus(@RequestHeader("Authorization") String token,
+                                                 @RequestBody OrderStatusDTO orderStatusDTO) {
+        ;
+        return ResponseEntity.ok(orderService.changeOrderStatus(orderStatusDTO));
     }
 }

@@ -9,6 +9,7 @@ import com.delivery.mydelivery.database.repositories.ordermanage.OrderRepository
 import com.delivery.mydelivery.database.services.accountmanage.ClientService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
+import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +43,12 @@ public class OrderService {
         clientOrder.setClient(client);
         clientOrder.setOrganization(organization);
         return orderRepository.save(clientOrder).getId();
+    }
+    public StatusEnum changeOrderStatus(OrderStatusDTO orderStatusDTO) {
+        ClientOrder order = orderRepository.findById(orderStatusDTO.getOrderId())
+                .orElseThrow(NullPointerException::new);
+        Status status = statusService.getStatusByName(orderStatusDTO.getStatus());
+        order.setStatus(status);
+        return orderRepository.save(order).getStatus().getName();
     }
 }

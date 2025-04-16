@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.controllers;
+package com.delivery.mydelivery.controllers.ordermanage;
 
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.ordermanage.status.Status;
@@ -35,7 +35,10 @@ public class OrderController {
     @PostMapping("/change-order-status")
     ResponseEntity<StatusEnum> changeOrderStatus(@RequestHeader("Authorization") String token,
                                                  @RequestBody OrderStatusDTO orderStatusDTO) {
-        ;
         return ResponseEntity.ok(orderService.changeOrderStatus(orderStatusDTO));
+    }
+    @GetMapping("/order/{id}")
+    ResponseEntity<ClientOrderDTO> getOrderById(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getClientOrderDTOById(id));
     }
 }

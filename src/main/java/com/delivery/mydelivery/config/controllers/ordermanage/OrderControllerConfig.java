@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.config.controllers;
+package com.delivery.mydelivery.config.controllers.ordermanage;
 
 import com.delivery.mydelivery.config.interceptors.JwtValidationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class OrderControllerConfig implements WebMvcConfigurer {
     @Autowired
     JwtValidationInterceptor jwtValidationInterceptor;
-
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/orders/*");
+        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/orders/**");
     }
 }

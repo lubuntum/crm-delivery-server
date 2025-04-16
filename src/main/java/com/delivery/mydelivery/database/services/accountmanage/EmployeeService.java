@@ -14,4 +14,7 @@ public class EmployeeService {
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
+    public Employee getEmployeeById(Long id) {
+        return employeeRepository.findById(id).orElseThrow(NullPointerException::new);
+    }
 }

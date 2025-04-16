@@ -51,4 +51,10 @@ public class OrderService {
         order.setStatus(status);
         return orderRepository.save(order).getStatus().getName();
     }
+    public ClientOrderDTO getClientOrderDTOById(Long id) {
+        return orderRepository.findDTOById(id);
+    }
+    public ClientOrder getClientOrderById(Long id) {
+        return orderRepository.findById(id).orElseThrow(NullPointerException::new);
+    }
 }

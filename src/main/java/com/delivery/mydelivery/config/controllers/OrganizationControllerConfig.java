@@ -12,6 +12,6 @@ public class OrganizationControllerConfig implements WebMvcConfigurer {
     JwtValidationInterceptor jwtValidationInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/organization/*");
+        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/organization/**");
     }
 }

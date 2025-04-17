@@ -31,7 +31,7 @@ public class OrderPickup {
 
     @ManyToOne
     @JoinColumn(name = "courier_id", nullable = false)
-    private Employee employee;
+    private Employee courier;
 
     @PrePersist
     protected void onCreate(){

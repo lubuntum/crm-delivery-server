@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class OrderPickupDTO {
     private Long id;
-    private LocalDateTime pickedAt;
+    private LocalDateTime takenAt;
     private String comment;
     private Integer itemsCount;
     private Long orderId;

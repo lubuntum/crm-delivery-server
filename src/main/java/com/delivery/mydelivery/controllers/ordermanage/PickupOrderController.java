@@ -25,7 +25,11 @@ public class PickupOrderController {
         return ResponseEntity.ok(orderPickupService.createOrderPickup(orderPickupDTO));
     }
     @GetMapping("/order-pickup/{id}")
-    public ResponseEntity<OrderPickupProjection> getPickupOrderById(@PathVariable Long id){
+    public ResponseEntity<OrderPickupProjection> getOrderPickupById(@PathVariable Long id){
         return ResponseEntity.ok(orderPickupService.getOrderPickupById(id));
+    }
+    @GetMapping("/order-pickup/by-order-id/{orderId}")
+    public ResponseEntity<OrderPickupDTO> getOrderPickupByOrderId(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderPickupService.getOrderPickupByOrderId(orderId));
     }
 }

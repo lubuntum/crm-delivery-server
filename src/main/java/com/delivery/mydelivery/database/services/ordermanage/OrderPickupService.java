@@ -23,8 +23,15 @@ public class OrderPickupService {
     public OrderPickupProjection getOrderPickupById(Long id) {
         return orderPickupRepository.findOrderPickupById(id);
     }
+    public OrderPickupDTO getOrderPickupByOrderId(Long orderId) {
+        return orderPickupRepository.findOrderPickupByOrderId(orderId);
+    }
+
     @Transactional
     public Long createOrderPickup(OrderPickupDTO orderPickupDTO) {
+        OrderPickupDTO orderPickupFromDB = getOrderPickupByOrderId(orderPickupDTO.getOrderId());
+        if (orderPickupFromDB != null) return orderPickupFromDB.getId();
+
         OrderPickup orderPickup = new OrderPickup();
         ClientOrder clientOrder = orderService.getClientOrderById(orderPickupDTO.getOrderId());
         Employee employee = employeeService.getEmployeeById(orderPickupDTO.getCourierId());
@@ -32,7 +39,7 @@ public class OrderPickupService {
         orderPickup.setComment(orderPickupDTO.getComment());
         orderPickup.setItemsCount(orderPickupDTO.getItemsCount());
         orderPickup.setClientOrder(clientOrder);
-        orderPickup.setEmployee(employee);
+        orderPickup.setCourier(employee);
         return orderPickupRepository.save(orderPickup).getId();
     }
 }

@@ -7,18 +7,25 @@ import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.ClientService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
+import com.delivery.mydelivery.database.services.productmanage.ItemService;
 import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
 import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
+import com.delivery.mydelivery.dto.productmanage.ItemDTO;
+import com.delivery.mydelivery.dto.productmanage.ItemMapper;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ItemService itemService;
     @Autowired
     private ClientService clientService;
     @Autowired
@@ -40,5 +47,13 @@ public class OrderController {
     @GetMapping("/order/{id}")
     ResponseEntity<ClientOrderDTO> getOrderById(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getClientOrderDTOById(id));
+    }
+    @PostMapping("/items/create-item")
+    ResponseEntity<ItemDTO> createItemForOrder(@RequestBody ItemDTO itemDTO){
+        return ResponseEntity.ok(ItemMapper.toDTO(itemService.createItem(itemDTO)));
+    }
+    @GetMapping("/items/by-order-id/{id}")
+    ResponseEntity<List<ItemDTO>> getItemsByOrderId(@PathVariable Long id) {
+        return ResponseEntity.ok(itemService.getItemsByOrderId(id));
     }
 }

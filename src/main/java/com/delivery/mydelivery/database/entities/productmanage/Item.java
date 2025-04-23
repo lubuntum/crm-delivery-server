@@ -33,6 +33,8 @@ public class Item {
     private Double height;
     @Column(name = "comment")
     private String comment;
+    @Column(name = "is_ready")
+    private Boolean isReady;
     @ManyToOne
     @JoinColumn(name = "material_id")
     private Material material;

@@ -11,4 +11,5 @@ public interface ItemProjection {
     Double getWidth();
     Double getHeight();
     String getComment();
+    Boolean getIsReady();
 }

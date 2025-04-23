@@ -22,4 +22,6 @@ public class ItemDTO {
     Double height;
     String comment;
 
+    Boolean isReady;
+
 }

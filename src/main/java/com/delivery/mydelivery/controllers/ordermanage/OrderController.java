@@ -52,6 +52,16 @@ public class OrderController {
     ResponseEntity<ItemDTO> createItemForOrder(@RequestBody ItemDTO itemDTO){
         return ResponseEntity.ok(ItemMapper.toDTO(itemService.createItem(itemDTO)));
     }
+    /**
+     * Change item ready state.
+     * Example - /items/item/change-ready-state?id=5&isReady=true
+     * @id - current id for changing item
+     * @isReady - new value for isReady field inside entity which will be updated
+     * */
+    @PatchMapping("/items/item/change-ready-state")
+    ResponseEntity<Boolean> changeItemReadyState(@RequestParam Long id, @RequestParam Boolean isReady){
+        return ResponseEntity.ok(itemService.changeItemReadyStateById(id, isReady));
+    }
     @GetMapping("/items/by-order-id/{id}")
     ResponseEntity<List<ItemDTO>> getItemsByOrderId(@PathVariable Long id) {
         return ResponseEntity.ok(itemService.getItemsByOrderId(id));

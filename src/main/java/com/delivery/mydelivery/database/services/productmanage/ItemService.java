@@ -33,4 +33,10 @@ public class ItemService {
     public List<ItemDTO> getItemsByOrderId(Long orderId) {
         return itemRepository.findItemsByOrderId(orderId);
     }
+    public Boolean changeItemReadyStateById(Long id, Boolean isReady) {
+        Item item = itemRepository.findById(id).orElseThrow(NullPointerException::new);
+        item.setIsReady(isReady);
+        itemRepository.save(item);
+        return true;
+    }
 }

@@ -33,7 +33,7 @@ public class ItemMapper {
         item.setPricePerUnit(itemDTO.getPricePerUnit());
         item.setAdditionalPrice(itemDTO.getAdditionalPrice());
         item.setComment(itemDTO.getComment());
-        //item.setIsReady(itemDTO.getIsReady());
+        item.setIsReady(itemDTO.getIsReady());
         return item;
     }
 }

@@ -7,6 +7,7 @@ import com.delivery.mydelivery.database.projections.OrderPickupProjection;
 import com.delivery.mydelivery.database.repositories.ordermanage.OrderPickupRepository;
 import com.delivery.mydelivery.database.services.accountmanage.EmployeeService;
 import com.delivery.mydelivery.dto.ordermanage.OrderPickupDTO;
+import jakarta.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,8 @@ public class OrderPickupService {
     @Transactional
     public Long createOrderPickup(OrderPickupDTO orderPickupDTO) {
         OrderPickupDTO orderPickupFromDB = getOrderPickupByOrderId(orderPickupDTO.getOrderId());
-        if (orderPickupFromDB != null) return orderPickupFromDB.getId();
+        if (orderPickupFromDB != null)
+            throw new EntityExistsException("OrderPickup already exists for order with id " + orderPickupDTO.getOrderId());
 
         OrderPickup orderPickup = new OrderPickup();
         ClientOrder clientOrder = orderService.getClientOrderById(orderPickupDTO.getOrderId());

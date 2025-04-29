@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,6 +18,7 @@ public class ClientOrderDTO {
     private String comment;
     private LocalDateTime createdAt;
     private StatusEnum status;
+    private BigDecimal totalPrice;
     private Long clientId;
     private String clientName;
     private String clientSecondName;

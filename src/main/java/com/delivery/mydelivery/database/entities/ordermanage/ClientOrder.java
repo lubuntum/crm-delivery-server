@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -27,6 +28,8 @@ public class ClientOrder {
     private String comment;
     @Column(name = "created_at", updatable = false, nullable = false)
     LocalDateTime createdAt;
+    @Column(name = "total_price")
+    BigDecimal totalPrice;
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

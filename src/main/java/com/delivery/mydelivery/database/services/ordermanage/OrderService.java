@@ -40,6 +40,8 @@ public class OrderService {
         clientOrder.setAddress(clientOrderDTO.getAddress());
         clientOrder.setComment(clientOrderDTO.getComment());
         clientOrder.setStatus(status);
+        clientOrder.setTotalPrice(clientOrderDTO.getTotalPrice());
+
         clientOrder.setClient(client);
         clientOrder.setOrganization(organization);
         return orderRepository.save(clientOrder).getId();

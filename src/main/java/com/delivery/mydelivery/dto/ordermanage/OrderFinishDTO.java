@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderFinishDTO {
     private Long id;
-    private String orderId;
-    private String courierId;
+    private Long orderId;
+    private Long courierId;
     private String comment;
     private Integer itemsCount;
     private LocalDateTime deliveredAt;

@@ -33,7 +33,11 @@ public class OrderFinish {
     @JoinColumn(name = "order_id", nullable = false)
     private ClientOrder clientOrder;
     @ManyToOne
-    @JoinColumn(name = "inspector_id", nullable = false)
+    @JoinColumn(name = "courier_id", nullable = false)
     private Employee employee;
+    @PrePersist
+    protected void onCreate() {
+        deliveredAt = LocalDateTime.now();
+    }
 
 }

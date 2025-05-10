@@ -19,7 +19,6 @@ public class EmployeeController {
     EmployeeWorkflowService employeeWorkflowService;
     @Autowired
     JwtService jwtService;
-    //TODO update this method use employeeId instead of id
     @GetMapping("/employee/workflow-by-date")
     public ResponseEntity<EmployeeWorkflowProjection> getEmployeeWorkflowByDate(
             @RequestHeader("Authorization") String token,
@@ -28,6 +27,7 @@ public class EmployeeController {
                 Long.valueOf(jwtService.extractSubject(token)), workDate));
     }
     //add interceptor which checks role (only for couriers)
+    //TODO remove this method, this data updates in FinishOrderService
     @HasRole(RoleEnum.COURIER)
     @PostMapping("/employee/update-workflow")
     public ResponseEntity<Boolean> updateEmployeeWorkflowByDate(

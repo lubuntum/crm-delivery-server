@@ -17,7 +17,9 @@ public class FinishOrderController {
     @PostMapping("/create")
     public ResponseEntity<Long> createOrderFinish(@RequestHeader("Authorization") String token,
                                                   @RequestBody OrderFinishDTO orderFinishDTO) {
+        //TODO add interceptor for this ?
         orderFinishDTO.setCourierId(Long.valueOf(jwtService.extractSubject(token)));
+        orderFinishDTO.getOrderCompleteData().setCourierId(Long.valueOf(jwtService.extractSubject(token)));
         return ResponseEntity.ok(orderFinishService.createOrderFinish(orderFinishDTO));// TODO make repo and service save it return id
     }
     @GetMapping("/order-finish/by-order-id/{orderId}")

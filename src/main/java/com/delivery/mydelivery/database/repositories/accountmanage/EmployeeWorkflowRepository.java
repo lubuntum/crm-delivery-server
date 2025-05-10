@@ -11,4 +11,5 @@ import java.time.LocalDateTime;
 public interface EmployeeWorkflowRepository extends JpaRepository<EmployeeWorkflow, Long> {
     EmployeeWorkflowProjection findEmployeeWorkflowByIdAndWorkDate(Long id, LocalDate workDate);
     EmployeeWorkflow findEmployeeWorkflowByEmployeeAndWorkDate(Employee employee, LocalDate workDate);
+    EmployeeWorkflowProjection findEmployeeWorkflowProjectionByEmployeeAndWorkDate(Employee employee, LocalDate workDate);
 }

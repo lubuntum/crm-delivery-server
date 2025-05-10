@@ -43,4 +43,7 @@ public class AccountService {
         account.setPassword(PasswordValidationUtil.hashPassword(account.getPassword()));
         return accountRepository.save(account);
     }
+    public Account getAccountById(Long id) {
+        return accountRepository.findById(id).orElseThrow(NullPointerException::new);
+    }
 }

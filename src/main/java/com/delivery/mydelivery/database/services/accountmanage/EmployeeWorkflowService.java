@@ -4,12 +4,12 @@ import com.delivery.mydelivery.database.entities.accountmanage.Employee;
 import com.delivery.mydelivery.database.entities.accountmanage.EmployeeWorkflow;
 import com.delivery.mydelivery.database.projections.EmployeeWorkflowProjection;
 import com.delivery.mydelivery.database.repositories.accountmanage.EmployeeWorkflowRepository;
-import com.delivery.mydelivery.dto.EmployeeWorkflowDTO;
+import com.delivery.mydelivery.dto.accountmanage.EmployeeWorkflowDTO;
+import com.delivery.mydelivery.dto.accountmanage.OrderCompleteDataDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Service
 public class EmployeeWorkflowService {
@@ -18,8 +18,9 @@ public class EmployeeWorkflowService {
     @Autowired
     EmployeeService employeeService;
     //TODO write a method which find workflow by employeeId and workDate
-    public EmployeeWorkflowProjection getEmployeeWorkflowByIdAndWorkDate(Long id, LocalDate workDate){
-        return employeeWorkflowRepository.findEmployeeWorkflowByIdAndWorkDate(id, workDate);
+    public EmployeeWorkflowProjection getEmployeeWorkflowByEmployeeIdAndWorkDate(Long employeeId, LocalDate workDate) {
+        Employee employee = employeeService.getEmployeeById(employeeId);
+        return employeeWorkflowRepository.findEmployeeWorkflowProjectionByEmployeeAndWorkDate(employee, workDate);
     }
     public boolean updateEmployeeWorkflow(EmployeeWorkflowDTO employeeWorkflowDTO) {
         Employee employee = employeeService.getEmployeeById(employeeWorkflowDTO.getEmployeeId());
@@ -38,5 +39,23 @@ public class EmployeeWorkflowService {
             employeeWorkflow.setOrdersCount(employeeWorkflow.getOrdersCount() + 1);
         }
         return employeeWorkflowRepository.save(employeeWorkflow).getId() != null;
+    }
+    public void updateEmployeeWorkflow(OrderCompleteDataDTO orderCompleteDataDTO) {
+        Employee courier = employeeService.getEmployeeById(orderCompleteDataDTO.getCourierId());
+        EmployeeWorkflow employeeWorkflow = employeeWorkflowRepository
+                .findEmployeeWorkflowByEmployeeAndWorkDate(courier, orderCompleteDataDTO.getWorkDate());
+        if (employeeWorkflow == null) {
+            employeeWorkflow = new EmployeeWorkflow();
+            employeeWorkflow.setItemsArea(orderCompleteDataDTO.getItemsArea());
+            employeeWorkflow.setOrdersPrice(orderCompleteDataDTO.getTotalPrice());
+            employeeWorkflow.setOrdersCount(1);
+            employeeWorkflow.setWorkDate(orderCompleteDataDTO.getWorkDate());
+            employeeWorkflow.setEmployee(courier);
+        } else {
+            employeeWorkflow.setItemsArea(employeeWorkflow.getItemsArea() + orderCompleteDataDTO.getItemsArea());
+            employeeWorkflow.setOrdersPrice(employeeWorkflow.getOrdersPrice().add(orderCompleteDataDTO.getTotalPrice()));
+            employeeWorkflow.setOrdersCount(employeeWorkflow.getOrdersCount() + 1);
+        }
+        employeeWorkflowRepository.save(employeeWorkflow);
     }
 }

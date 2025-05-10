@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.dto;
+package com.delivery.mydelivery.dto.accountmanage;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,6 @@ public class EmployeeWorkflowDTO {
     Long id;
     Long employeeId;
     LocalDate workDate;
-    Double itemsArea;
-    BigDecimal ordersPrice;
+    Double itemsArea;//data for all items area in orders per day
+    BigDecimal ordersPrice;//data for all orders prices per day
 }

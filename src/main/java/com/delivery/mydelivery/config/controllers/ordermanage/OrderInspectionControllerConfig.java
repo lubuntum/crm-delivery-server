@@ -1,6 +1,6 @@
 package com.delivery.mydelivery.config.controllers.ordermanage;
 
-import com.delivery.mydelivery.config.interceptors.JwtValidationInterceptor;
+import com.delivery.mydelivery.config.interceptors.authentification.JwtValidationInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

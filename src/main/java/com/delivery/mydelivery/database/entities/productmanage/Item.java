@@ -1,5 +1,6 @@
 package com.delivery.mydelivery.database.entities.productmanage;
 
+import com.delivery.mydelivery.database.entities.orderimages.OrderImage;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.query.Order;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Data
@@ -41,4 +44,10 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private ClientOrder order;
+    @ManyToMany
+    @JoinTable(
+            name = "order_image_item",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "order_image_id"))
+    private List<OrderImage> orderImages = new LinkedList<>();
 }

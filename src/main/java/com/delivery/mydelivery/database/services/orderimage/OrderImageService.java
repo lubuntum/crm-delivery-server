@@ -2,7 +2,7 @@ package com.delivery.mydelivery.database.services.orderimage;
 
 import com.delivery.mydelivery.database.entities.orderimages.OrderImage;
 import com.delivery.mydelivery.database.repositories.orderimages.OrderImageRepository;
-import com.delivery.mydelivery.utility.password.FIleUtil;
+import com.delivery.mydelivery.utility.file.FIleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

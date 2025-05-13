@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.utility.password;
+package com.delivery.mydelivery.utility.file;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;

@@ -10,6 +10,7 @@ import com.delivery.mydelivery.database.services.accountmanage.ClientService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
 import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
+import com.delivery.mydelivery.utility.serialnumber.SerialNumberFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,9 @@ public class OrderService {
 
         clientOrder.setClient(client);
         clientOrder.setOrganization(organization);
+
+        clientOrder.setId(orderRepository.save(clientOrder).getId());
+        clientOrder.setSerialNumber(SerialNumberFormatter.calcSerialNumber(clientOrder.getId()));
         return orderRepository.save(clientOrder).getId();
     }
     public StatusEnum changeOrderStatus(OrderStatusDTO orderStatusDTO) {

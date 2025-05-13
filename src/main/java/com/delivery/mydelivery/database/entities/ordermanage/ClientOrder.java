@@ -22,6 +22,8 @@ public class ClientOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(name = "serial_number")
+    private String serialNumber;
     @Column(name = "address")
     private String address;
     @Column(name = "comment")

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ClientOrderDTO {
     private Long id;
+    private String serialNumber;
     private String address;
     private String comment;
     private LocalDateTime createdAt;

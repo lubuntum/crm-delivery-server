@@ -10,14 +10,14 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<ClientOrder, Long> {
     @Query("SELECT new com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO( " +
-            "co.id, co.address, co.comment, co.createdAt, co.status.name, co.totalPrice, " +
+            "co.id, co.serialNumber, co.address, co.comment, co.createdAt, co.status.name, co.totalPrice, " +
             "c.id ,c.name, c.secondName, c.patronymic, c.email, c.phone, co.organization.id ) " +
             "FROM ClientOrder co " +
             "JOIN co.client c " +
             "WHERE co.organization.id=:organizationId")
     List<ClientOrderDTO> findByOrganizationId(@Param("organizationId") Long organizationId);
     @Query("SELECT new com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO( " +
-            "co.id, co.address, co.comment, co.createdAt, co.status.name, co.totalPrice, " +
+            "co.id, co.serialNumber, co.address, co.comment, co.createdAt, co.status.name, co.totalPrice, " +
             "c.id ,c.name, c.secondName, c.patronymic, c.email, c.phone, co.organization.id ) " +
             "FROM ClientOrder co " +
             "JOIN co.client c " +

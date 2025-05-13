@@ -15,5 +15,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "JOIN i.material m " +
             "JOIN i.order o " +
             "WHERE o.id=:orderId")
-    List<ItemDTO> findItemsByOrderId(Long orderId);
+    List<ItemDTO> findItemsDTOByOrderId(Long orderId);
+    List<Item> findItemsByOrderId(Long orderId);
 }

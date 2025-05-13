@@ -19,6 +19,7 @@ public class OrderImageService {
     @Value("${images.folder}")
     private String imageFolder;
     public List<OrderImage> saveImages(List<MultipartFile> images) {
+        if (images == null) return null;
         List<OrderImage> orderImages = new LinkedList<>();
         images.forEach(image -> {
             try {

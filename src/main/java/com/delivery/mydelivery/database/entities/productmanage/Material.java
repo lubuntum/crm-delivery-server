@@ -23,5 +23,8 @@ public class Material {
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
-
+    @Override
+    public String toString(){
+        return name;
+    }
 }

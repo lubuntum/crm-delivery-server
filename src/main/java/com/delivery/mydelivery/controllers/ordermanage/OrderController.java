@@ -3,6 +3,7 @@ package com.delivery.mydelivery.controllers.ordermanage;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.ordermanage.status.Status;
 import com.delivery.mydelivery.database.entities.ordermanage.status.StatusEnum;
+import com.delivery.mydelivery.database.entities.productmanage.Item;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.ClientService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
@@ -13,11 +14,15 @@ import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
 import com.delivery.mydelivery.dto.productmanage.ItemDTO;
 import com.delivery.mydelivery.dto.productmanage.ItemMapper;
 import com.delivery.mydelivery.services.jwt.JwtService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -32,6 +37,8 @@ public class OrderController {
     private AccountService accountService;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private ObjectMapper objectMapper;
     @PostMapping("/create-order")
     ResponseEntity<Long> createOrder(@RequestHeader("Authorization") String token,
                                      @RequestBody ClientOrderDTO clientOrderDTO){
@@ -49,7 +56,10 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getClientOrderDTOById(id));
     }
     @PostMapping("/items/create-item")
-    ResponseEntity<ItemDTO> createItemForOrder(@RequestBody ItemDTO itemDTO){
+    ResponseEntity<ItemDTO> createItemForOrder(@RequestParam("itemDTOJson") String itemDTOJson,
+                                               @RequestParam(value = "images", required = false)List<MultipartFile> images) throws JsonProcessingException {
+        ItemDTO itemDTO = objectMapper.readValue(itemDTOJson, ItemDTO.class);
+        itemDTO.setImagesTemp(images);
         return ResponseEntity.ok(ItemMapper.toDTO(itemService.createItem(itemDTO)));
     }
     /**

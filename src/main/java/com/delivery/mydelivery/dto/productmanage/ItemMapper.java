@@ -22,6 +22,8 @@ public class ItemMapper {
         itemDTO.setMaterialId(item.getMaterial().getId());
         itemDTO.setMaterialName(item.getMaterial().getName());
         itemDTO.setOrderId(item.getOrder().getId());
+
+        itemDTO.setOrderImages(item.getOrderImages());
         return itemDTO;
     }
     public static Item fromDTO(ItemDTO itemDTO) {

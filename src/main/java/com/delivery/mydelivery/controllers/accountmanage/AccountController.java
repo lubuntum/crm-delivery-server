@@ -8,6 +8,7 @@ import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.EmployeeService;
 import com.delivery.mydelivery.database.services.accountmanage.RoleService;
+import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,14 @@ public class AccountController {
     @GetMapping("/roles")
     public ResponseEntity<List<Role>> getAccountsRoles() {
         return ResponseEntity.ok(roleService.getRoles());
+    }
+    @HasRole(RoleEnum.DIRECTOR)
+    @PostMapping("/create")
+    public ResponseEntity<Long> createAccount(@RequestHeader("Authorization") String token,
+                                                @RequestBody AccountData accountData) {
+        accountData.setOrganizationId(employeeService.getOrganizationByEmployeeId(
+                Long.valueOf(jwtService.extractSubject(token))).getId());
+        return ResponseEntity.ok(accountService.createAccount(accountData));
     }
 
 }

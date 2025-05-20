@@ -1,10 +1,14 @@
 package com.delivery.mydelivery.database.services.accountmanage;
 
 import com.delivery.mydelivery.database.entities.accountmanage.Account;
+import com.delivery.mydelivery.database.entities.accountmanage.Employee;
 import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.AccountStatus;
 import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.AccountStatusEnum;
+import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
+import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.entities.organization.Organization;
 import com.delivery.mydelivery.database.repositories.accountmanage.AccountRepository;
+import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.dto.auth.AuthCredential;
 import com.delivery.mydelivery.services.jwt.JwtService;
@@ -20,6 +24,12 @@ public class AccountService {
     private AccountRepository accountRepository;
     @Autowired
     private AccountStatusService accountStatusService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private EmployeeService employeeService;
+    @Autowired
+    private OrganizationService organizationService;
     @Autowired
     private JwtService jwtService;
 
@@ -60,5 +70,32 @@ public class AccountService {
         AccountStatus accountStatus = accountStatusService.getAccountStatusByName(status);
         account.setAccountStatus(accountStatus);
         return accountRepository.save(account).getAccountStatus().getName();
+    }
+    public Long createAccount(AccountData accountData) {
+        Organization organization = organizationService.getOrganizationById(accountData.getOrganizationId());
+        Employee employee = new Employee();
+        employee.setName(accountData.getEmployeeName());
+        employee.setSecondName(accountData.getEmployeeSecondName());
+        employee.setPatronymic(accountData.getEmployeePatronymic());
+        employee.setPhone(accountData.getPhone());
+        employee.setOrganization(organization);
+        employeeService.createEmployee(employee);
+
+        AccountStatus accountStatus = accountStatusService.getAccountStatusByName(AccountStatusEnum.ENABLED);
+        Role role = roleService.getRoleByName(accountData.getRole());
+        Account account = new Account();
+        account.setAccountStatus(accountStatus);
+        account.setEmail(accountData.getEmail());
+        account.setEmployee(employee);
+        account.setPassword(PasswordValidationUtil.hashPassword("123456"));
+        account.setRole(role);
+        return accountRepository.save(account).getId();
+    }
+    public boolean checkRoleForAccountId(RoleEnum roleName, Long accountId) {
+        Role role = roleService.getRoleByName(roleName);
+        if (role == null)
+            throw new IllegalArgumentException("Role not found: " + roleName);
+        Account account = getAccountById(accountId);
+        return account != null && account.getRole().getId().equals(role.getId());
     }
 }

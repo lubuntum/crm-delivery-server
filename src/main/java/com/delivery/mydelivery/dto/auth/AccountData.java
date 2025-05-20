@@ -18,5 +18,6 @@ public class AccountData {
     private String employeePatronymic;
     private String phone;
     private String organizationName;
+    private Long organizationId;
     private AccountStatusEnum accountStatus;
 }

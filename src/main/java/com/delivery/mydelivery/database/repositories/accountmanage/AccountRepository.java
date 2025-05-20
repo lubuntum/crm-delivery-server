@@ -14,7 +14,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query("SELECT new com.delivery.mydelivery.dto.auth.AccountData(" +
             "a.id, a.email, r.name, " +
             "e.name, e.secondName, e.patronymic, " +
-            "e.phone, o.name, ac.name) " +
+            "e.phone, o.name, o.id, ac.name) " +
             "FROM Account a " +
             "INNER JOIN role r " +
             "INNER JOIN employee e " +
@@ -26,7 +26,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query("SELECT new com.delivery.mydelivery.dto.auth.AccountData(" +
             "a.id, a.email, r.name, " +
             "e.name, e.secondName, e.patronymic, " +
-            "e.phone, o.name, ac.name) " +
+            "e.phone, o.name, o.id, ac.name) " +
             "FROM Account a " +
             "INNER JOIN role r " +
             "INNER JOIN employee e " +

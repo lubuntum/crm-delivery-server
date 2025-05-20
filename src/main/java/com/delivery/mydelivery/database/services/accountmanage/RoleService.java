@@ -13,19 +13,14 @@ import java.util.List;
 public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
-    @Autowired
-    private AccountService accountService;
     public List<Role> getAllRoles(){
         return roleRepository.findAll();
     }
-    public boolean checkRoleForAccountId(RoleEnum roleName, Long accountId) {
-        Role role = roleRepository.findRoleByName(roleName);
-        if (role == null)
-            throw new IllegalArgumentException("Role not found: " + roleName);
-        Account account = accountService.getAccountById(accountId);
-        return account != null && account.getRole().getId().equals(role.getId());
-    }
+
     public List<Role> getRoles(){
         return roleRepository.findAll();
+    }
+    public Role getRoleByName(RoleEnum name) {
+        return roleRepository.findRoleByName(name);
     }
 }

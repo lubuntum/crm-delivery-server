@@ -20,8 +20,6 @@ public class RoleAspect {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private RoleService roleService;
-    @Autowired
     private JwtService jwtService;
 
     @Before("@annotation(hasRole)")
@@ -31,7 +29,7 @@ public class RoleAspect {
             String jwtToken = (String) authentication.getCredentials();
             Long accountId = Long.valueOf(jwtService.extractSubject(jwtToken));
 
-            if (!roleService.checkRoleForAccountId(hasRole.value(), accountId)) throw new AccessDeniedException("Don't meet role requirements");
+            if (!accountService.checkRoleForAccountId(hasRole.value(), accountId)) throw new AccessDeniedException("Don't meet role requirements");
         } catch (Exception e) {
             throw new AccessDeniedException(e.getMessage());
         }

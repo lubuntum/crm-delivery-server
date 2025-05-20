@@ -25,4 +25,7 @@ public class RoleService {
         Account account = accountService.getAccountById(accountId);
         return account != null && account.getRole().getId().equals(role.getId());
     }
+    public List<Role> getRoles(){
+        return roleRepository.findAll();
+    }
 }

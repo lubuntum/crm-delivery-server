@@ -14,6 +14,7 @@ import com.delivery.mydelivery.dto.auth.AuthCredential;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import com.delivery.mydelivery.utility.password.PasswordValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class AccountService {
     public String validateAuthCredential(AuthCredential authCredential) {
         Account account = accountRepository.findByEmail(authCredential.getEmail());
         if (account == null) throw new RuntimeException();
+        if (account.getAccountStatus().getName() == AccountStatusEnum.DISABLED) throw new AccessDeniedException("Account is disabled");
         if(!PasswordValidationUtil.validatePassword(authCredential.getPassword(), account.getPassword()))
             throw new RuntimeException();
         return jwtService.generateToken(String.valueOf(account.getId()));

@@ -14,7 +14,9 @@ public interface OrderRepository extends JpaRepository<ClientOrder, Long> {
             "c.id ,c.name, c.secondName, c.patronymic, c.email, c.phone, co.organization.id ) " +
             "FROM ClientOrder co " +
             "JOIN co.client c " +
-            "WHERE co.organization.id=:organizationId")
+            "WHERE co.organization.id=:organizationId " +
+            "AND EXTRACT(MONTH from co.createdAt) = EXTRACT(MONTH from CURRENT_DATE) " +
+            "AND EXTRACT(YEAR from co.createdAt) = EXTRACT(YEAR from CURRENT_DATE)")
     List<ClientOrderDTO> findByOrganizationId(@Param("organizationId") Long organizationId);
     @Query("SELECT new com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO( " +
             "co.id, co.serialNumber, co.address, co.comment, co.createdAt, co.status.name, co.totalPrice, " +

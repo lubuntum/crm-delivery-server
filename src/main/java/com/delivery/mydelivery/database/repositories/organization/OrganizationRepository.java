@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.database.repositories.ordanization;
+package com.delivery.mydelivery.database.repositories.organization;
 
 import com.delivery.mydelivery.database.entities.organization.Organization;
 import org.springframework.data.jpa.repository.JpaRepository;

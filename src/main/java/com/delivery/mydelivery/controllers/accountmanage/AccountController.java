@@ -33,7 +33,7 @@ public class AccountController {
     public ResponseEntity<List<AccountData>> getAccountsByOrganization(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(
                 accountService.getAccountsDataByOrganizationId(
-                        employeeService.getOrganizationByEmployeeId(
+                        accountService.getOrganizationByAccountId(
                                 Long.valueOf(jwtService.extractSubject(token))).getId()));
     }
     @HasRole(RoleEnum.DIRECTOR)
@@ -49,7 +49,7 @@ public class AccountController {
     @PostMapping("/create")
     public ResponseEntity<Long> createAccount(@RequestHeader("Authorization") String token,
                                                 @RequestBody AccountData accountData) {
-        accountData.setOrganizationId(employeeService.getOrganizationByEmployeeId(
+        accountData.setOrganizationId(accountService.getOrganizationByAccountId(
                 Long.valueOf(jwtService.extractSubject(token))).getId());
         return ResponseEntity.ok(accountService.createAccount(accountData));
     }

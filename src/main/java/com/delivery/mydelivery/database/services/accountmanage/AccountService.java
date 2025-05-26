@@ -34,7 +34,6 @@ public class AccountService {
     @Autowired
     private JwtService jwtService;
 
-    //TODO make custom exception, now returned 200 with empty request if some error occurred
     public String validateAuthCredential(AuthCredential authCredential) {
         Account account = accountRepository.findByEmail(authCredential.getEmail());
         if (account == null) throw new RuntimeException();
@@ -56,7 +55,6 @@ public class AccountService {
         Account account = accountRepository.findById(id).orElseThrow(NullPointerException::new);
         return account.getEmployee().getOrganization();
     }
-    //TODO Unstable test
     public Account createAccount(Account account) {
         account.setPassword(PasswordValidationUtil.hashPassword(account.getPassword()));
         return accountRepository.save(account);

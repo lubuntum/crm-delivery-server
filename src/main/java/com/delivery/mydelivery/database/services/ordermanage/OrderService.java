@@ -47,6 +47,7 @@ public class OrderService {
         clientOrder.setOrganization(organization);
 
         clientOrder.setId(orderRepository.save(clientOrder).getId());
+        //TODO count serial not from id, but from total count of orders in specific organization
         clientOrder.setSerialNumber(SerialNumberFormatter.calcSerialNumber(clientOrder.getId()));
         return orderRepository.save(clientOrder).getId();
     }

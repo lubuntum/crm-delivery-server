@@ -51,6 +51,12 @@ public class OrderService {
         clientOrder.setSerialNumber(SerialNumberFormatter.calcSerialNumber(clientOrder.getId()));
         return orderRepository.save(clientOrder).getId();
     }
+    public void removeOrder(ClientOrderDTO clientOrderDTO) {
+        ClientOrder clientOrder = orderRepository.findById(clientOrderDTO.getId()).orElseThrow(NullPointerException::new);
+        if (!clientOrder.getStatus().getName().equals(StatusEnum.CREATED))
+            throw new IllegalArgumentException("Only for orders with status CREATED");
+        orderRepository.delete(clientOrder);
+    }
     public StatusEnum changeOrderStatus(OrderStatusDTO orderStatusDTO) {
         ClientOrder order = orderRepository.findById(orderStatusDTO.getOrderId())
                 .orElseThrow(NullPointerException::new);

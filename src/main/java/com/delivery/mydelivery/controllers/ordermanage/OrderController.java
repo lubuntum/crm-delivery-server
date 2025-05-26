@@ -39,12 +39,19 @@ public class OrderController {
     private JwtService jwtService;
     @Autowired
     private ObjectMapper objectMapper;
+    //TODO create method for deleting order if its status still CREATED
+    // useful when sometimes order declined by client
     @PostMapping("/create-order")
     ResponseEntity<Long> createOrder(@RequestHeader("Authorization") String token,
                                      @RequestBody ClientOrderDTO clientOrderDTO){
         clientOrderDTO.setClientId(clientService.createClientIfNotExists(clientOrderDTO.extractClientData()));
         clientOrderDTO.setOrganizationId(accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId());
         return ResponseEntity.ok(orderService.createOrder(clientOrderDTO));
+    }
+    @PostMapping("/remove-order")
+    ResponseEntity<String> removeOrder(@RequestBody ClientOrderDTO clientOrderDTO) {
+        orderService.removeOrder(clientOrderDTO);
+        return ResponseEntity.ok("Removed");
     }
     @PostMapping("/change-order-status")
     ResponseEntity<StatusEnum> changeOrderStatus(@RequestHeader("Authorization") String token,

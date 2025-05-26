@@ -31,4 +31,8 @@ public class Organization {
     public String toString(){
         return getName();
     }
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }

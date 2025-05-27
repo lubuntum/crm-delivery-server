@@ -16,7 +16,8 @@ public interface OrderRepository extends JpaRepository<ClientOrder, Long> {
             "JOIN co.client c " +
             "WHERE co.organization.id=:organizationId " +
             "AND EXTRACT(MONTH from co.createdAt) = EXTRACT(MONTH from CURRENT_DATE) " +
-            "AND EXTRACT(YEAR from co.createdAt) = EXTRACT(YEAR from CURRENT_DATE)")
+            "AND EXTRACT(YEAR from co.createdAt) = EXTRACT(YEAR from CURRENT_DATE) " +
+            "AND co.isActive = true")
     List<ClientOrderDTO> findByOrganizationId(@Param("organizationId") Long organizationId);
     @Query("SELECT new com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO( " +
             "co.id, co.serialNumber, co.address, co.comment, co.createdAt, co.status.name, co.totalPrice, " +
@@ -25,4 +26,6 @@ public interface OrderRepository extends JpaRepository<ClientOrder, Long> {
             "JOIN co.client c " +
             "WHERE co.id=:id")
     ClientOrderDTO findDTOById(Long id);
+
+    Long countByOrganizationId(Long organizationId);
 }

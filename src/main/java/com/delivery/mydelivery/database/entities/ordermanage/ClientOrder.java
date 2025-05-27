@@ -32,6 +32,8 @@ public class ClientOrder {
     LocalDateTime createdAt;
     @Column(name = "total_price")
     BigDecimal totalPrice;
+    @Column(name = "is_active")
+    Boolean isActive;
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

@@ -31,6 +31,9 @@ public class OrderService {
     public List<ClientOrderDTO> getAllOrdersByOrganizationId(Long organizationId) {
         return orderRepository.findByOrganizationId(organizationId);
     }
+    public Long getTotalCountByOrganizationId(Long organizationId) {
+        return orderRepository.countByOrganizationId(organizationId);
+    }
     @Transactional
     public Long createOrder(ClientOrderDTO clientOrderDTO){
         ClientOrder clientOrder = new ClientOrder();
@@ -42,20 +45,23 @@ public class OrderService {
         clientOrder.setComment(clientOrderDTO.getComment());
         clientOrder.setStatus(status);
         clientOrder.setTotalPrice(clientOrderDTO.getTotalPrice());
+        clientOrder.setIsActive(true);
 
         clientOrder.setClient(client);
         clientOrder.setOrganization(organization);
 
         clientOrder.setId(orderRepository.save(clientOrder).getId());
         //TODO count serial not from id, but from total count of orders in specific organization
-        clientOrder.setSerialNumber(SerialNumberFormatter.calcSerialNumber(clientOrder.getId()));
+        clientOrder.setSerialNumber(SerialNumberFormatter.calcSerialNumber(getTotalCountByOrganizationId(organization.getId())));
         return orderRepository.save(clientOrder).getId();
     }
     public void removeOrder(ClientOrderDTO clientOrderDTO) {
         ClientOrder clientOrder = orderRepository.findById(clientOrderDTO.getId()).orElseThrow(NullPointerException::new);
         if (!clientOrder.getStatus().getName().equals(StatusEnum.CREATED))
             throw new IllegalArgumentException("Only for orders with status CREATED");
-        orderRepository.delete(clientOrder);
+        //orderRepository.delete(clientOrder);
+        clientOrder.setIsActive(false);
+        orderRepository.save(clientOrder);
     }
     public StatusEnum changeOrderStatus(OrderStatusDTO orderStatusDTO) {
         ClientOrder order = orderRepository.findById(orderStatusDTO.getOrderId())

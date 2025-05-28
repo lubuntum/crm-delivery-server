@@ -39,8 +39,6 @@ public class OrderController {
     private JwtService jwtService;
     @Autowired
     private ObjectMapper objectMapper;
-    //TODO create method for deleting order if its status still CREATED
-    // useful when sometimes order declined by client
     @PostMapping("/create-order")
     ResponseEntity<Long> createOrder(@RequestHeader("Authorization") String token,
                                      @RequestBody ClientOrderDTO clientOrderDTO){

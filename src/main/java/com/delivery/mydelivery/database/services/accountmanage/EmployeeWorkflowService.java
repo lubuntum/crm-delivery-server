@@ -17,7 +17,7 @@ public class EmployeeWorkflowService {
     EmployeeWorkflowRepository employeeWorkflowRepository;
     @Autowired
     EmployeeService employeeService;
-    //TODO write a method which find workflow by employeeId and workDate
+
     public EmployeeWorkflowProjection getEmployeeWorkflowByEmployeeIdAndWorkDate(Long employeeId, LocalDate workDate) {
         Employee employee = employeeService.getEmployeeById(employeeId);
         return employeeWorkflowRepository.findEmployeeWorkflowProjectionByEmployeeAndWorkDate(employee, workDate);

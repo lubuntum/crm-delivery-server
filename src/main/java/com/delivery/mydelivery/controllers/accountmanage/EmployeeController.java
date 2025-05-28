@@ -28,7 +28,8 @@ public class EmployeeController {
                 Long.valueOf(jwtService.extractSubject(token)), workDate));
     }
     //add interceptor which checks role (only for couriers)
-    //TODO remove this method, this data updates in FinishOrderService
+    // remove this method, this data updates in FinishOrderService
+    @Deprecated
     @HasRole(RoleEnum.COURIER)
     @PostMapping("/employee/update-workflow")
     public ResponseEntity<Boolean> updateEmployeeWorkflowByDate(

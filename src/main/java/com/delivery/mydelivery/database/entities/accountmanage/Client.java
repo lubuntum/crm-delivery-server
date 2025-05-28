@@ -21,7 +21,6 @@ public class Client {
     private String secondName;
     @Column(name = "patronymic")
     private String patronymic;
-    //TODO make the same in DB
     @Column(name = "email", unique = true)
     private String email;
     @Column(name = "phone", unique = true, nullable = false)

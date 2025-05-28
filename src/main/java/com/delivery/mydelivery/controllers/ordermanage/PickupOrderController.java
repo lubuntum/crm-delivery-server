@@ -28,8 +28,6 @@ public class PickupOrderController {
             @RequestHeader("Authorization") String token,
             @RequestParam("orderPickup") String orderPickupStr,
             @RequestParam(value = "images", required = false)List<MultipartFile> images) throws JsonProcessingException {
-        //TODO think, may be logic of extraction token data transfer to
-        // interceptor which append request with extracted data
         OrderPickupDTO orderPickupDTO = objectMapper.readValue(orderPickupStr, OrderPickupDTO.class);
         orderPickupDTO.setImagesTemp(images);
         orderPickupDTO.setCourierId(Long.valueOf(jwtService.extractSubject(token)));

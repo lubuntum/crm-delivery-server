@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,7 +30,8 @@ public class OrderService {
     OrganizationService organizationService;
 
     public List<ClientOrderDTO> getAllOrdersByOrganizationId(Long organizationId) {
-        return orderRepository.findByOrganizationId(organizationId);
+        LocalDateTime startedAt = LocalDateTime.now().minusDays(30);
+        return orderRepository.findByOrganizationIdFromDate(organizationId, startedAt);
     }
     public Long getTotalCountByOrganizationId(Long organizationId) {
         return orderRepository.countByOrganizationId(organizationId);
@@ -51,7 +53,7 @@ public class OrderService {
         clientOrder.setOrganization(organization);
 
         clientOrder.setId(orderRepository.save(clientOrder).getId());
-        //TODO count serial not from id, but from total count of orders in specific organization
+
         clientOrder.setSerialNumber(SerialNumberFormatter.calcSerialNumber(getTotalCountByOrganizationId(organization.getId())));
         return orderRepository.save(clientOrder).getId();
     }

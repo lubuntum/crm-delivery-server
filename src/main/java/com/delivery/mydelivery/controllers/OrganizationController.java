@@ -3,6 +3,7 @@ package com.delivery.mydelivery.controllers;
 import com.delivery.mydelivery.annotation.accountmanage.HasRole;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
+import com.delivery.mydelivery.database.entities.productmanage.Material;
 import com.delivery.mydelivery.database.projections.MaterialProjection;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
@@ -10,6 +11,7 @@ import com.delivery.mydelivery.database.services.organization.OrganizationServic
 import com.delivery.mydelivery.database.services.productmanage.MaterialService;
 import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
 import com.delivery.mydelivery.dto.organization.OrganizationDTO;
+import com.delivery.mydelivery.dto.productmanage.MaterialDTO;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,20 @@ public class OrganizationController {
         return ResponseEntity.ok(materialService.getMaterialsByOrganizationId(
                 accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId()));
     }
-    //TODO think how to create presets for materials list for organization
+    //TODO test it
+    @PostMapping("/materials/create")
+    public ResponseEntity<Long> addMaterialForOrganization(@RequestHeader("Authorization") String token,
+                                                             @RequestBody MaterialDTO materialDTO) {
+        //before add material find organization by provided tken
+        materialDTO.setOrganizationId(
+                accountService.getOrganizationByAccountId(
+                        Long.valueOf(jwtService.extractSubject(token))).getId());
+        return ResponseEntity.ok(materialService.createMaterial(materialDTO));
+    }
+    @PostMapping("/materials/remove")
+    public ResponseEntity<Boolean> removeMaterialForOrganization(@RequestBody MaterialDTO materialDTO) {
+        return ResponseEntity.ok(materialService.removeMaterial(materialDTO));
+    }
     @HasRole(RoleEnum.ADMIN)
     @PostMapping("/create")
     public ResponseEntity<Boolean> createOrganization(@RequestBody OrganizationDTO organizationDTO) {

@@ -10,4 +10,5 @@ import java.util.List;
 public interface MaterialRepository extends JpaRepository<Material, Long> {
     List<MaterialProjection> findByOrganizationId(Long organizationId);
     MaterialProjection findMaterialById(Long id);
+    Material findMaterialEntityById(Long id);
 }

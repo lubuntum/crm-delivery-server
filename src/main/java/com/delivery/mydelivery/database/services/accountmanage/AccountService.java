@@ -2,8 +2,8 @@ package com.delivery.mydelivery.database.services.accountmanage;
 
 import com.delivery.mydelivery.database.entities.accountmanage.Account;
 import com.delivery.mydelivery.database.entities.accountmanage.Employee;
-import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.AccountStatus;
-import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.AccountStatusEnum;
+import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.ActiveStatus;
+import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.ActiveStatusEnum;
 import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.entities.organization.Organization;
@@ -37,7 +37,7 @@ public class AccountService {
     public String validateAuthCredential(AuthCredential authCredential) {
         Account account = accountRepository.findByEmail(authCredential.getEmail());
         if (account == null) throw new RuntimeException();
-        if (account.getAccountStatus().getName() == AccountStatusEnum.DISABLED) throw new AccessDeniedException("Account is disabled");
+        if (account.getActiveStatus().getName() == ActiveStatusEnum.DISABLED) throw new AccessDeniedException("Account is disabled");
         if(!PasswordValidationUtil.validatePassword(authCredential.getPassword(), account.getPassword()))
             throw new RuntimeException();
         return jwtService.generateToken(String.valueOf(account.getId()));
@@ -65,11 +65,11 @@ public class AccountService {
     public List<AccountData> getAccountsDataByOrganizationId(Long organizationId) {
         return accountRepository.findAccountDataByOrganizationId(organizationId);
     }
-    public AccountStatusEnum updateAccountStatus(Long id, AccountStatusEnum status) {
+    public ActiveStatusEnum updateAccountStatus(Long id, ActiveStatusEnum status) {
         Account account = accountRepository.findById(id).orElseThrow(NullPointerException::new);
-        AccountStatus accountStatus = accountStatusService.getAccountStatusByName(status);
-        account.setAccountStatus(accountStatus);
-        return accountRepository.save(account).getAccountStatus().getName();
+        ActiveStatus activeStatus = accountStatusService.getAccountStatusByName(status);
+        account.setActiveStatus(activeStatus);
+        return accountRepository.save(account).getActiveStatus().getName();
     }
     public Long createAccount(AccountData accountData) {
         Organization organization = organizationService.getOrganizationById(accountData.getOrganizationId());
@@ -81,10 +81,10 @@ public class AccountService {
         employee.setOrganization(organization);
         employeeService.createEmployee(employee);
 
-        AccountStatus accountStatus = accountStatusService.getAccountStatusByName(AccountStatusEnum.ENABLED);
+        ActiveStatus activeStatus = accountStatusService.getAccountStatusByName(ActiveStatusEnum.ENABLED);
         Role role = roleService.getRoleByName(accountData.getRole());
         Account account = new Account();
-        account.setAccountStatus(accountStatus);
+        account.setActiveStatus(activeStatus);
         account.setEmail(accountData.getEmail());
         account.setEmployee(employee);
         account.setPassword(PasswordValidationUtil.hashPassword("123456"));

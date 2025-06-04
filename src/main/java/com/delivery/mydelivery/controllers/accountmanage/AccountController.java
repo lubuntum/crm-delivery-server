@@ -1,14 +1,12 @@
 package com.delivery.mydelivery.controllers.accountmanage;
 
 import com.delivery.mydelivery.annotation.accountmanage.HasRole;
-import com.delivery.mydelivery.database.entities.accountmanage.Account;
-import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.AccountStatusEnum;
+import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.ActiveStatusEnum;
 import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.EmployeeService;
 import com.delivery.mydelivery.database.services.accountmanage.RoleService;
-import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,7 @@ public class AccountController {
     }
     @HasRole(RoleEnum.DIRECTOR)
     @PostMapping("/update-status")
-    public ResponseEntity<AccountStatusEnum> updateAccountStatus(@RequestBody AccountData accountData) {
+    public ResponseEntity<ActiveStatusEnum> updateAccountStatus(@RequestBody AccountData accountData) {
         return ResponseEntity.ok(accountService.updateAccountStatus(accountData.getId(), accountData.getAccountStatus()));
     }
     @GetMapping("/roles")

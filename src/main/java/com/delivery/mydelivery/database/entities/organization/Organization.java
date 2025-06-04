@@ -1,6 +1,7 @@
 package com.delivery.mydelivery.database.entities.organization;
 
 import com.delivery.mydelivery.database.entities.accountmanage.Employee;
+import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.ActiveStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,9 @@ public class Organization {
     private String name;
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "active_status_id", nullable = false)
+    private ActiveStatus organizationActiveStatus;
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees;
 

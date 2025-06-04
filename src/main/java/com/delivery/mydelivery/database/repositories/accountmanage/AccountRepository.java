@@ -19,7 +19,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             "INNER JOIN role r " +
             "INNER JOIN employee e " +
             "INNER JOIN organization o " +
-            "INNER JOIN accountStatus ac " +
+            "INNER JOIN activeStatus ac " +
             "WHERE a.id = :id")
     AccountData findAccountDataById(Long id);
 
@@ -31,7 +31,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             "INNER JOIN role r " +
             "INNER JOIN employee e " +
             "INNER JOIN organization o " +
-            "INNER JOIN accountStatus ac " +
+            "INNER JOIN activeStatus ac " +
             "WHERE e.organization.id = :organizationId")
     List<AccountData> findAccountDataByOrganizationId(Long organizationId);
 }

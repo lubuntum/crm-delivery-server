@@ -1,6 +1,6 @@
 package com.delivery.mydelivery.database.entities.accountmanage.accountstatus;
 
-public enum AccountStatusEnum {
+public enum ActiveStatusEnum {
     ENABLED,
     DISABLED
 }

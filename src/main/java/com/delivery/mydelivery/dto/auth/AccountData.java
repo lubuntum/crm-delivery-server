@@ -1,6 +1,6 @@
 package com.delivery.mydelivery.dto.auth;
 
-import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.AccountStatusEnum;
+import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.ActiveStatusEnum;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +19,5 @@ public class AccountData {
     private String phone;
     private String organizationName;
     private Long organizationId;
-    private AccountStatusEnum accountStatus;
+    private ActiveStatusEnum accountStatus;
 }

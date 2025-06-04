@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "account_status")
-public class AccountStatus {
+@Table(name = "active_status")
+public class ActiveStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -18,5 +18,5 @@ public class AccountStatus {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "name", nullable = false, unique = true)
-    AccountStatusEnum name;
+    ActiveStatusEnum name;
 }

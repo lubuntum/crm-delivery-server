@@ -19,8 +19,8 @@ public class ItemMapper {
 
         itemDTO.setIsReady(item.getIsReady());
 
-        itemDTO.setMaterialId(item.getMaterial().getId());
-        itemDTO.setMaterialName(item.getMaterial().getName());
+        itemDTO.setMaterialId(item.getMaterial() != null ? item.getMaterial().getId(): null);
+        itemDTO.setMaterialName(item.getMaterial() != null ? item.getMaterial().getName() : "Material Removed");
         itemDTO.setOrderId(item.getOrder().getId());
 
         itemDTO.setOrderImages(item.getOrderImages());

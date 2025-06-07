@@ -17,7 +17,7 @@ public interface EmployeeWorkflowRepository extends JpaRepository<EmployeeWorkfl
     EmployeeWorkflowProjection findEmployeeWorkflowProjectionByEmployeeAndWorkDate(Employee employee, LocalDate workDate);
 
     @Query("SELECT new com.delivery.mydelivery.dto.accountmanage.EmployeeWorkflowDTO( " +
-            "e_w.id, e.id, e_w.workDate, e_w.itemsArea, e_w.ordersPrice, " +
+            "e_w.id, e.id, e_w.workDate, e_w.ordersCount, e_w.itemsArea, e_w.ordersPrice, " +
             "e.name, e.secondName, e.patronymic) " +
             "FROM EmployeeWorkflow e_w " +
             "LEFT JOIN e_w.employee e " +

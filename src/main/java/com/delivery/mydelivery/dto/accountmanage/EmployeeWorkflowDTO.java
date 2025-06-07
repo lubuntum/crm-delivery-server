@@ -17,4 +17,7 @@ public class EmployeeWorkflowDTO {
     LocalDate workDate;
     Double itemsArea;//data for all items area in orders per day
     BigDecimal ordersPrice;//data for all orders prices per day
+    String name;
+    String secondName;
+    String patronymic;
 }

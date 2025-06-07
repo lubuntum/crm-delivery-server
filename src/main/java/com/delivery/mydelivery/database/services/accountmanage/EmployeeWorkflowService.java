@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class EmployeeWorkflowService {
@@ -22,6 +23,10 @@ public class EmployeeWorkflowService {
         Employee employee = employeeService.getEmployeeById(employeeId);
         return employeeWorkflowRepository.findEmployeeWorkflowProjectionByEmployeeAndWorkDate(employee, workDate);
     }
+    public List<EmployeeWorkflowDTO> getEmployeesWorkFlowByOrganizationAndWorkDate(Long organizationId, LocalDate workDate){
+        return employeeWorkflowRepository.findEmployeesWorkflowDTOByOrganizationIdAndWorkDate(organizationId, workDate);
+    }
+    //DEPRECATED not using by direct
     public boolean updateEmployeeWorkflow(EmployeeWorkflowDTO employeeWorkflowDTO) {
         Employee employee = employeeService.getEmployeeById(employeeWorkflowDTO.getEmployeeId());
         EmployeeWorkflow employeeWorkflow = employeeWorkflowRepository

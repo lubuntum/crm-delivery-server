@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderCompleteDataDTO {
-    Long courierId;
     LocalDate workDate;
     Double itemsArea;// items area for one order
     BigDecimal totalPrice; // data for one order

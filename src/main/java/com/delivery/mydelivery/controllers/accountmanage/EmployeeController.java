@@ -30,7 +30,8 @@ public class EmployeeController {
             @RequestHeader("Authorization") String token,
             @RequestParam("workDate")LocalDate workDate){
         return ResponseEntity.ok(employeeWorkflowService.getEmployeeWorkflowByEmployeeIdAndWorkDate(
-                Long.valueOf(jwtService.extractSubject(token)), workDate));
+                accountService.getEmployeeByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId(),
+                workDate));
     }
     @GetMapping("/workflow-by-organization-and-date")
     public ResponseEntity<List<EmployeeWorkflowDTO>> getEmployeesWorkFlowByDateAndOrganization(
@@ -49,7 +50,8 @@ public class EmployeeController {
     public ResponseEntity<Boolean> updateEmployeeWorkflowByDate(
             @RequestHeader("Authorization") String token,
             @RequestBody EmployeeWorkflowDTO employeeWorkflowDTO) {
-        employeeWorkflowDTO.setEmployeeId(Long.valueOf(jwtService.extractSubject(token)));
+        //TODO mistake, should get employee id by account but not just extract token (there is accountId)
+        employeeWorkflowDTO.setEmployeeId(accountService.getEmployeeByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId());
         return ResponseEntity.ok(employeeWorkflowService.updateEmployeeWorkflow(employeeWorkflowDTO));
     }
 }

@@ -43,7 +43,7 @@ public class OrderFinishService {
         orderFinish.setClientOrder(clientOrder);
         orderFinish.setEmployee(employee);
         orderFinish.setId(orderFinishRepository.save(orderFinish).getId());
-        employeeWorkflowService.updateEmployeeWorkflow(orderFinishDTO.getOrderCompleteData());
+        employeeWorkflowService.updateEmployeeWorkflow(orderFinishDTO);
         return orderFinish.getId();
     }
     public OrderFinishDTO getOrderFinishByOrderId(Long orderId) {

@@ -6,6 +6,7 @@ import com.delivery.mydelivery.database.projections.EmployeeWorkflowProjection;
 import com.delivery.mydelivery.database.repositories.accountmanage.EmployeeWorkflowRepository;
 import com.delivery.mydelivery.dto.accountmanage.EmployeeWorkflowDTO;
 import com.delivery.mydelivery.dto.accountmanage.OrderCompleteDataDTO;
+import com.delivery.mydelivery.dto.ordermanage.OrderFinishDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +46,10 @@ public class EmployeeWorkflowService {
         }
         return employeeWorkflowRepository.save(employeeWorkflow).getId() != null;
     }
-    public void updateEmployeeWorkflow(OrderCompleteDataDTO orderCompleteDataDTO) {
-        Employee courier = employeeService.getEmployeeById(orderCompleteDataDTO.getCourierId());
+    public void updateEmployeeWorkflow(OrderFinishDTO orderFinishDTO) {
+        OrderCompleteDataDTO orderCompleteDataDTO = orderFinishDTO.getOrderCompleteData();
+
+        Employee courier = employeeService.getEmployeeById(orderFinishDTO.getCourierId());
         EmployeeWorkflow employeeWorkflow = employeeWorkflowRepository
                 .findEmployeeWorkflowByEmployeeAndWorkDate(courier, orderCompleteDataDTO.getWorkDate());
         if (employeeWorkflow == null) {

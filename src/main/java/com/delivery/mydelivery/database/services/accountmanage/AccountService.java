@@ -65,6 +65,10 @@ public class AccountService {
     public List<AccountData> getAccountsDataByOrganizationId(Long organizationId) {
         return accountRepository.findAccountDataByOrganizationId(organizationId);
     }
+    public Employee getEmployeeByAccountId(Long accountId) {
+        Account account = accountRepository.findById(accountId).orElseThrow(NullPointerException::new);
+        return account.getEmployee();
+    }
     public ActiveStatusEnum updateAccountStatus(Long id, ActiveStatusEnum status) {
         Account account = accountRepository.findById(id).orElseThrow(NullPointerException::new);
         ActiveStatus activeStatus = accountStatusService.getAccountStatusByName(status);

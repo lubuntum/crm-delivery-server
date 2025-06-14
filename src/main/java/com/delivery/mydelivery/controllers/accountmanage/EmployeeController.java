@@ -42,6 +42,17 @@ public class EmployeeController {
                 workDate
         ));
     }
+    @GetMapping("/workflow-by-organization-and-date-between")
+    public ResponseEntity<List<EmployeeWorkflowDTO>> getEmployeesWorkFlowByDateBetweenAndOrganization(
+            @RequestHeader("Authorization") String token,
+            @RequestParam("startDate") LocalDate startDate,
+            @RequestParam("endDate") LocalDate endDate) {
+        return ResponseEntity.ok(employeeWorkflowService.getEmployeesWorkFlowByOrganizationAndWorkDateBetween(
+                accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId(),
+                startDate,
+                endDate
+        ));
+    }
     //add interceptor which checks role (only for couriers)
     // remove this method, this data updates in FinishOrderService
     @Deprecated

@@ -23,4 +23,13 @@ public interface EmployeeWorkflowRepository extends JpaRepository<EmployeeWorkfl
             "LEFT JOIN e_w.employee e " +
             "WHERE e.organization.id = :organizationId AND e_w.workDate = :workDate")
     List<EmployeeWorkflowDTO> findEmployeesWorkflowDTOByOrganizationIdAndWorkDate(Long organizationId, LocalDate workDate);
+    @Query("SELECT new com.delivery.mydelivery.dto.accountmanage.EmployeeWorkflowDTO( " +
+            "e_w.id, e.id, e_w.workDate, e_w.ordersCount, e_w.itemsArea, e_w.ordersPrice, " +
+            "e.name, e.secondName, e.patronymic) " +
+            "FROM EmployeeWorkflow e_w " +
+            "LEFT JOIN e_w.employee e " +
+            "WHERE e.organization.id = :organizationId AND e_w.workDate BETWEEN :startDate AND :endDate")
+    List<EmployeeWorkflowDTO> findEmployeesWorkflowDTOByOrganizationIdAndWorkDateBetween(Long organizationId,
+                                                                                         LocalDate startDate,
+                                                                                         LocalDate endDate);
 }

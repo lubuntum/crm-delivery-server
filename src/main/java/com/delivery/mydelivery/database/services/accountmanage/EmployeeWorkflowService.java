@@ -27,6 +27,9 @@ public class EmployeeWorkflowService {
     public List<EmployeeWorkflowDTO> getEmployeesWorkFlowByOrganizationAndWorkDate(Long organizationId, LocalDate workDate){
         return employeeWorkflowRepository.findEmployeesWorkflowDTOByOrganizationIdAndWorkDate(organizationId, workDate);
     }
+    public List<EmployeeWorkflowDTO> getEmployeesWorkFlowByOrganizationAndWorkDateBetween(Long organizationId, LocalDate startDate, LocalDate endDate) {
+        return employeeWorkflowRepository.findEmployeesWorkflowDTOByOrganizationIdAndWorkDateBetween(organizationId, startDate, endDate);
+    }
     //DEPRECATED not using by direct
     public boolean updateEmployeeWorkflow(EmployeeWorkflowDTO employeeWorkflowDTO) {
         Employee employee = employeeService.getEmployeeById(employeeWorkflowDTO.getEmployeeId());

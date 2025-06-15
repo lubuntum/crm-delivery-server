@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.controllers;
+package com.delivery.mydelivery.controllers.organization;
 
 import com.delivery.mydelivery.annotation.accountmanage.HasRole;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
@@ -26,8 +26,7 @@ public class OrganizationController {
     OrderService orderService;
     @Autowired
     AccountService accountService;
-    @Autowired
-    OrganizationService organizationService;
+
     @Autowired
     MaterialService materialService;
     @Autowired
@@ -57,11 +56,5 @@ public class OrganizationController {
     public ResponseEntity<Boolean> removeMaterialForOrganization(@RequestBody MaterialDTO materialDTO) {
         return ResponseEntity.ok(materialService.removeMaterial(materialDTO));
     }
-    @HasRole(RoleEnum.ADMIN)
-    @PostMapping("/create")
-    public ResponseEntity<Boolean> createOrganization(@RequestBody OrganizationDTO organizationDTO) {
-        organizationService.createOrganization(organizationDTO);
-        accountService.createAccount(organizationDTO.getDirectorData());
-        return ResponseEntity.ok(true);
-    }
+
 }

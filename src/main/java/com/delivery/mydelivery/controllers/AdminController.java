@@ -28,9 +28,10 @@ public class AdminController {
         return ResponseEntity.ok(true);
     }
     @HasRole(RoleEnum.ADMIN)
-    @PostMapping("/organization/disable")
-    public ResponseEntity<Boolean> disableOrganization(@RequestBody OrganizationDTO organizationDTO) {
-        return null;
+    @PostMapping("/organization/change-status")
+    public ResponseEntity<Void> changeOrganizationActiveStatus(@RequestBody OrganizationDTO organizationDTO) {
+        organizationService.changeOrganizationActiveStatus(organizationDTO);
+        return ResponseEntity.ok().build();
     }
     @HasRole(RoleEnum.ADMIN)
     @GetMapping("/get-organizations")

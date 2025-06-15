@@ -32,10 +32,10 @@ public class OrganizationService {
         organizationDTO.setId(organizationRepository.save(organization).getId());
         organizationDTO.getDirectorData().setOrganizationId(organization.getId());
     }
-    public void disableOrganization(OrganizationDTO organizationDTO) {
+    public void changeOrganizationActiveStatus(OrganizationDTO organizationDTO) {
         Organization organization = organizationRepository.findById(organizationDTO.getId())
                 .orElseThrow(NullPointerException::new);
-        ActiveStatus activeStatus = activeStatusRepository.findActiveStatusByName(ActiveStatusEnum.DISABLED);
+        ActiveStatus activeStatus = activeStatusRepository.findActiveStatusByName(organizationDTO.getActiveStatus());
         organization.setOrganizationActiveStatus(activeStatus);
         organizationRepository.save(organization);
     }

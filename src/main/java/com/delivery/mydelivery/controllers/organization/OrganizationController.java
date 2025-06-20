@@ -1,5 +1,6 @@
 package com.delivery.mydelivery.controllers.organization;
 
+import com.delivery.mydelivery.annotation.accountmanage.CheckStatus;
 import com.delivery.mydelivery.annotation.accountmanage.HasRole;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
@@ -31,7 +32,9 @@ public class OrganizationController {
     MaterialService materialService;
     @Autowired
     JwtService jwtService;
+
     @GetMapping("/orders")
+    @CheckStatus
     public ResponseEntity<List<ClientOrderDTO>> getOrdersByOrganizationId(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(orderService.getAllOrdersByOrganizationId(
                 accountService.getOrganizationByAccountId(

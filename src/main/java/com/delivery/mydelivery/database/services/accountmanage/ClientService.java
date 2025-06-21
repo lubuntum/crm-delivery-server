@@ -17,4 +17,7 @@ public class ClientService {
         if (clientFromDb != null) return clientFromDb.getId();
         return clientRepository.save(client).getId();
     }
+    public Client updateClient(Client client) {
+        return clientRepository.save(client);
+    }
 }

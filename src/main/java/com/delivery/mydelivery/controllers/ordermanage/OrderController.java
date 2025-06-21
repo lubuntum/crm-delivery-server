@@ -46,7 +46,11 @@ public class OrderController {
         clientOrderDTO.setOrganizationId(accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId());
         return ResponseEntity.ok(orderService.createOrder(clientOrderDTO));
     }
-    @PostMapping("/remove-order")
+    @PatchMapping("/update-order")
+    ResponseEntity<ClientOrderDTO> updateOrder(@RequestBody ClientOrderDTO clientOrderDTO){
+        return ResponseEntity.ok(orderService.updateOrder(clientOrderDTO));
+    }
+    @PatchMapping("/remove-order")
     ResponseEntity<String> removeOrder(@RequestBody ClientOrderDTO clientOrderDTO) {
         orderService.removeOrder(clientOrderDTO);
         return ResponseEntity.ok("Removed");
@@ -66,6 +70,11 @@ public class OrderController {
         ItemDTO itemDTO = objectMapper.readValue(itemDTOJson, ItemDTO.class);
         itemDTO.setImagesTemp(images);
         return ResponseEntity.ok(ItemMapper.toDTO(itemService.createItem(itemDTO)));
+    }
+
+    @PostMapping("/items/delete-item")
+    ResponseEntity<Boolean> deleteItemFromOrder(@RequestBody ItemDTO itemDTO) {
+        return ResponseEntity.ok(true);
     }
     /**
      * Change item ready state.

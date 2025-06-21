@@ -57,6 +57,24 @@ public class OrderService {
         clientOrder.setSerialNumber(SerialNumberFormatter.calcSerialNumber(getTotalCountByOrganizationId(organization.getId())));
         return orderRepository.save(clientOrder).getId();
     }
+    @Transactional
+    public ClientOrderDTO updateOrder(ClientOrderDTO clientOrderDTO) {
+        ClientOrder clientOrder = orderRepository.findById(clientOrderDTO.getId()).orElseThrow(NullPointerException::new);
+        Client client = clientService.getClientById(clientOrderDTO.getClientId());
+
+        clientOrder.setAddress(clientOrderDTO.getAddress());
+        clientOrder.setComment(clientOrderDTO.getComment());
+
+        client.setName(clientOrderDTO.getClientName());
+        client.setSecondName(clientOrderDTO.getClientSecondName());
+        client.setPatronymic(clientOrderDTO.getClientPatronymic());
+        client.setEmail(clientOrderDTO.getClientEmail());
+        client.setPhone(clientOrderDTO.getClientPhone());
+
+        orderRepository.save(clientOrder);
+        clientService.updateClient(client);
+        return clientOrderDTO;
+    }
     public void removeOrder(ClientOrderDTO clientOrderDTO) {
         ClientOrder clientOrder = orderRepository.findById(clientOrderDTO.getId()).orElseThrow(NullPointerException::new);
         if (!clientOrder.getStatus().getName().equals(StatusEnum.CREATED))

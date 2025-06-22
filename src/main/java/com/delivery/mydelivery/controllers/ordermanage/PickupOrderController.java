@@ -34,6 +34,10 @@ public class PickupOrderController {
         return ResponseEntity.ok(orderPickupService.createOrderPickup(orderPickupDTO));
 
     }
+    @PatchMapping("/update")
+    public ResponseEntity<OrderPickupDTO> updateOrderPickupDTO (@RequestBody OrderPickupDTO orderPickupDTO) {
+        return ResponseEntity.ok(orderPickupService.updateOrderPickup(orderPickupDTO));
+    }
     @GetMapping("/order-pickup/{id}")
     public ResponseEntity<OrderPickupProjection> getOrderPickupById(@PathVariable Long id){
         return ResponseEntity.ok(orderPickupService.getOrderPickupById(id));

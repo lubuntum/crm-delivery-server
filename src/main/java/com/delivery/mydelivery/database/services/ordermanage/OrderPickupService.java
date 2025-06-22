@@ -1,6 +1,7 @@
 package com.delivery.mydelivery.database.services.ordermanage;
 
 import com.delivery.mydelivery.database.entities.accountmanage.Employee;
+import com.delivery.mydelivery.database.entities.orderimages.OrderImage;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.ordermanage.OrderPickup;
 import com.delivery.mydelivery.database.projections.OrderPickupProjection;
@@ -13,6 +14,8 @@ import jakarta.persistence.EntityExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class OrderPickupService {
@@ -51,6 +54,17 @@ public class OrderPickupService {
         orderPickup.setCourier(employee);
         orderPickup.setOrderImages(orderImageService.saveImages(orderPickupDTO.getImagesTemp()));
         return orderPickupRepository.save(orderPickup).getId();
-
+    }
+    public OrderPickupDTO updateOrderPickup(OrderPickupDTO orderPickupDTO) {
+        OrderPickup orderPickup = orderPickupRepository.findById(orderPickupDTO.getId()).orElseThrow(NullPointerException::new);
+        orderPickup.setItemsCount(orderPickupDTO.getItemsCount());
+        orderPickup.setComment(orderPickupDTO.getComment());
+        //if was added some additional images then save them and add to pickupOrder
+        if (orderPickupDTO.getImagesTemp() != null && orderPickupDTO.getImagesTemp().size() > 0){
+            List<OrderImage> orderImages = orderImageService.saveImages(orderPickupDTO.getImagesTemp());
+            orderPickup.getOrderImages().addAll(orderImages);
+        }
+        orderPickupRepository.save(orderPickup);
+        return orderPickupDTO;
     }
 }

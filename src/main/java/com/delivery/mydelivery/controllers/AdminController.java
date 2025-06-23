@@ -6,6 +6,7 @@ import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.dto.organization.OrganizationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,8 @@ public class AdminController {
     @HasRole(RoleEnum.ADMIN)
     @PostMapping("/organization/create")
     public ResponseEntity<Boolean> createOrganization(@RequestBody OrganizationDTO organizationDTO) {
+        if (!accountService.isEmailValid(organizationDTO.getDirectorData().getEmail()))
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
         organizationService.createOrganization(organizationDTO);
         accountService.createAccount(organizationDTO.getDirectorData());
         return ResponseEntity.ok(true);

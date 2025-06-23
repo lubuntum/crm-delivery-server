@@ -42,6 +42,10 @@ public class AccountService {
             throw new RuntimeException();
         return jwtService.generateToken(String.valueOf(account.getId()));
     }
+    public boolean isEmailValid(String email) {
+        Account account = accountRepository.findByEmail(email);
+        return account == null;
+    }
     public AccountData getAccountData(Long id) {
         return accountRepository.findAccountDataById(id);
     }
@@ -76,6 +80,7 @@ public class AccountService {
         return accountRepository.save(account).getActiveStatus().getName();
     }
     public Long createAccount(AccountData accountData) {
+        if (!isEmailValid(accountData.getEmail())) throw new RuntimeException("Email already in use");
         Organization organization = organizationService.getOrganizationById(accountData.getOrganizationId());
         Employee employee = new Employee();
         employee.setName(accountData.getEmployeeName());

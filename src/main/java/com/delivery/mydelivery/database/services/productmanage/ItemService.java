@@ -9,6 +9,7 @@ import com.delivery.mydelivery.database.services.orderimage.OrderImageService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.dto.productmanage.ItemDTO;
 import com.delivery.mydelivery.dto.productmanage.ItemMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,17 @@ public class ItemService {
     MaterialService materialService;
     @Autowired
     OrderImageService orderImageService;
+
+    public boolean deleteItem(Long itemId) {
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new EntityNotFoundException("Cant find entity with id " + itemId));
+        if (item.getOrderImages() != null && !item.getOrderImages().isEmpty()){
+            item.getOrderImages()
+                    .forEach(orderImage -> orderImageService.removeOrderImage(orderImage));
+            //item.getOrderImages().clear();
+        }
+        itemRepository.deleteById(item.getId());
+        return true;
+    }
 
     public Item createItem(ItemDTO itemDTO) {
         ClientOrder order = orderService.getClientOrderById(itemDTO.getOrderId());

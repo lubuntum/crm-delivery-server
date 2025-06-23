@@ -33,4 +33,13 @@ public class OrderImageService {
         });
         return orderImages;
     }
+    public void removeOrderImage(OrderImage orderImage) {
+        try {
+            FIleUtil.deleteFileFromDir(FIleUtil.extractFilename(orderImage.getPath()), imageFolder);
+            //orderImageRepository.deleteById(orderImage.getId());
+        } catch (IOException e) {
+            System.err.println("Error occurred white deleting file " + e.getMessage());
+        }
+
+    }
 }

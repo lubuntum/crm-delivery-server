@@ -44,7 +44,7 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private ClientOrder order;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "order_image_item",
             joinColumns = @JoinColumn(name = "item_id"),

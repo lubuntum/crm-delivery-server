@@ -50,7 +50,7 @@ public class OrderController {
     ResponseEntity<ClientOrderDTO> updateOrder(@RequestBody ClientOrderDTO clientOrderDTO){
         return ResponseEntity.ok(orderService.updateOrder(clientOrderDTO));
     }
-    @PatchMapping("/remove-order")
+    @PostMapping("/remove-order")
     ResponseEntity<String> removeOrder(@RequestBody ClientOrderDTO clientOrderDTO) {
         orderService.removeOrder(clientOrderDTO);
         return ResponseEntity.ok("Removed");
@@ -72,9 +72,9 @@ public class OrderController {
         return ResponseEntity.ok(ItemMapper.toDTO(itemService.createItem(itemDTO)));
     }
 
-    @PostMapping("/items/delete-item")
-    ResponseEntity<Boolean> deleteItemFromOrder(@RequestBody ItemDTO itemDTO) {
-        return ResponseEntity.ok(true);
+    @DeleteMapping("/items/delete-item/{id}")
+    ResponseEntity<Boolean> deleteItemFromOrder(@PathVariable Long id) {
+        return ResponseEntity.ok(itemService.deleteItem(id));
     }
     /**
      * Change item ready state.

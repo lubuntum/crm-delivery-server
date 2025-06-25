@@ -4,7 +4,7 @@ import com.delivery.mydelivery.database.entities.accountmanage.Employee;
 import com.delivery.mydelivery.database.entities.orderimages.OrderImage;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.ordermanage.OrderPickup;
-import com.delivery.mydelivery.database.projections.OrderPickupProjection;
+import com.delivery.mydelivery.database.projections.ordermanage.OrderPickupProjection;
 import com.delivery.mydelivery.database.repositories.ordermanage.OrderPickupRepository;
 import com.delivery.mydelivery.database.services.accountmanage.EmployeeService;
 import com.delivery.mydelivery.database.services.orderimage.OrderImageService;

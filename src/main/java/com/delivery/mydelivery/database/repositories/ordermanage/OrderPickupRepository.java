@@ -2,7 +2,7 @@ package com.delivery.mydelivery.database.repositories.ordermanage;
 
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.ordermanage.OrderPickup;
-import com.delivery.mydelivery.database.projections.OrderPickupProjection;
+import com.delivery.mydelivery.database.projections.ordermanage.OrderPickupProjection;
 import com.delivery.mydelivery.dto.ordermanage.orderpickup.OrderPickupDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.database.projections;
+package com.delivery.mydelivery.database.projections.ordermanage;
 
 import java.time.LocalDateTime;
 

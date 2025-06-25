@@ -1,6 +1,7 @@
 package com.delivery.mydelivery.database.repositories.ordermanage;
 
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
+import com.delivery.mydelivery.database.projections.ordermanage.OrdersTotalStats;
 import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -38,4 +39,14 @@ public interface OrderRepository extends JpaRepository<ClientOrder, Long> {
     ClientOrderDTO findDTOById(Long id);
 
     Long countByOrganizationId(Long organizationId);
+    @Query("SELECT new com.delivery.mydelivery.database.projections.ordermanage.OrdersTotalStats( " +
+            "SUM(i.size), SUM(i.price), COUNT(DISTINCT co)) " +
+            "FROM ClientOrder co " +
+            "JOIN co.items i " +
+            "JOIN co.status s " +
+            "WHERE s.name <> 'COMPLETED' AND " +
+            "co.organization.id = :organizationId AND " +
+            "co.createdAt >= :startedAt")
+    OrdersTotalStats findRemainOrdersStatsByOrganization(@Param("organizationId") Long organizationId,
+                                                         @Param("startedAt") LocalDateTime startedAt);
 }

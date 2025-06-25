@@ -46,7 +46,7 @@ public class ClientOrder {
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Item> itemList;
+    private List<Item> items;
     @PrePersist
     protected void onCreate(){
         createdAt = LocalDateTime.now();

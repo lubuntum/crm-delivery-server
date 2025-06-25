@@ -6,6 +6,7 @@ import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.productmanage.Material;
 import com.delivery.mydelivery.database.projections.MaterialProjection;
+import com.delivery.mydelivery.database.projections.ordermanage.OrdersTotalStats;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
@@ -58,6 +59,13 @@ public class OrganizationController {
     @PostMapping("/materials/remove")
     public ResponseEntity<Boolean> removeMaterialForOrganization(@RequestBody MaterialDTO materialDTO) {
         return ResponseEntity.ok(materialService.removeMaterial(materialDTO));
+    }
+    @GetMapping("/statistics/remain-orders")
+    public ResponseEntity<OrdersTotalStats> getOrdersTotalStatsByOrganization(@RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(orderService
+                .getRemainOrdersStatsByOrganizationId(
+                        accountService.getOrganizationByAccountId(
+                                Long.valueOf(jwtService.extractSubject(token))).getId()));
     }
 
 }

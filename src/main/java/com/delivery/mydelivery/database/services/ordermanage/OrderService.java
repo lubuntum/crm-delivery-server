@@ -5,6 +5,7 @@ import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.ordermanage.status.Status;
 import com.delivery.mydelivery.database.entities.ordermanage.status.StatusEnum;
 import com.delivery.mydelivery.database.entities.organization.Organization;
+import com.delivery.mydelivery.database.projections.ordermanage.OrdersTotalStats;
 import com.delivery.mydelivery.database.repositories.ordermanage.OrderRepository;
 import com.delivery.mydelivery.database.services.accountmanage.ClientService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
@@ -95,5 +96,11 @@ public class OrderService {
     }
     public ClientOrder getClientOrderById(Long id) {
         return orderRepository.findById(id).orElseThrow(NullPointerException::new);
+    }
+    /**
+     * Return OrdersTotalStats with total price and size of orders (exclude COMPLETE status) for organization_id
+     * */
+    public OrdersTotalStats getRemainOrdersStatsByOrganizationId(Long organizationId) {
+        return orderRepository.findRemainOrdersStatsByOrganization(organizationId, LocalDateTime.now().minusDays(30));
     }
 }

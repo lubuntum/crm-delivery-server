@@ -17,8 +17,14 @@ public class EmployeeService {
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id).orElseThrow(NullPointerException::new);
     }
+    public Employee getEmployeeByPhone(String phone){
+        return employeeRepository.findEmployeeByPhone(phone);
+    }
     public Organization getOrganizationByEmployeeId(Long id) {
         Employee employee = employeeRepository.findById(id).orElseThrow(NullPointerException::new);
         return employee.getOrganization();
+    }
+    public void save(Employee employee) {
+        employeeRepository.save(employee);
     }
 }

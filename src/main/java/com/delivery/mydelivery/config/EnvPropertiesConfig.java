@@ -8,4 +8,5 @@ import org.springframework.context.annotation.PropertySource;
 public class EnvPropertiesConfig {
     public static final String SECRET_KEY = "SECRET_KEY";
     public static final String CLIENT_URL = "CLIENT_URL";
+    public static final String TG_BOT_TOKEN = "TG_BOT_TOKEN";
 }

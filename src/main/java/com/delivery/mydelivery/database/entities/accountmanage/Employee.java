@@ -26,6 +26,8 @@ public class Employee {
     private String patronymic;
     @Column(name = "phone")
     private String phone;
+    @Column(name = "chat_id")
+    private String chatId;
     @ManyToOne
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;

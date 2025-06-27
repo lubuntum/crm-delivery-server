@@ -37,4 +37,17 @@ public class ClientOrderDTO {
         client.setPhone(clientPhone);
         return client;
     }
+    @Override
+    public String toString(){
+        return String.format("📦 **Новая заявка на доставку!**\n\n" +
+                "👤 **ФИО:** %s\n" +
+                "🏠 **Адрес доставки:** %s\n" +
+                "📞 **Номер телефона:** %s\n" +
+                "📝 **Комментарий диспетчера:** %s\n\n" +
+                "Пожалуйста, обработайте заявку как можно скорее!",
+                String.format("%s %s %s", clientSecondName, clientName, clientPatronymic),
+                address,
+                clientPhone,
+                comment != null ? comment : "Нет комментария");
+    }
 }

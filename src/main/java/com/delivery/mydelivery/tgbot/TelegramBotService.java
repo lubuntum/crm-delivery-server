@@ -23,17 +23,18 @@ public class TelegramBotService {
     private static final String API_URL = "https://api.telegram.org/bot%s/getUpdates?offset=%d";
     public static final String API_NOTIFICATION_URL = "https://api.telegram.org/bot%s/sendMessage";
     private final EmployeeService employeeService;
-
+    private final OrganizationService organizationService;
     public TelegramBotService(
             Environment environment,
             RestTemplate restTemplate,
-            EmployeeService employeeService) {
+            EmployeeService employeeService,
+            OrganizationService organizationService) {
         this.environment = environment;
         this.restTemplate = restTemplate;
         this.employeeService = employeeService;
+        this.organizationService = organizationService;
     }
-    public void checkEmployeesRequests() {
-        List<Update> updates = getUpdates(0);
+    public void checkEmployeesRequests(List<Update> updates) {
         updates.forEach(update -> {
             try {
                 Employee employee = employeeService.getEmployeeByPhone(update.getMessage().getText());
@@ -45,18 +46,28 @@ public class TelegramBotService {
             }
         });
     }
+    public void unsubscribeNotifications(Long employeeId) {
+        Employee employee = employeeService.getEmployeeById(employeeId);
+        employee.setChatId(null);
+        employeeService.save(employee);
+    }
     public List<Update> getUpdates(int offset) {
         String url = String.format(API_URL, environment.getProperty(EnvPropertiesConfig.TG_BOT_TOKEN), offset);
         UpdatesResponse response = restTemplate.getForObject(url, UpdatesResponse.class);
         return response.getResult();
     }
-    public void sendNotifications(Organization organization, ClientOrderDTO orderDTO) {
+    public void sendNotifications(ClientOrderDTO orderDTO) {
         String url = String.format(API_NOTIFICATION_URL, environment.getProperty(EnvPropertiesConfig.TG_BOT_TOKEN));
         String payload = orderDTO.toString();
+        Organization organization = organizationService.getOrganizationById(orderDTO.getOrganizationId());
         organization.getEmployees().forEach(e -> {
             if (e.getChatId() == null) return;
             String employeeRequestUrl = String.format("%s?chat_id=%s&text=%s",url, e.getChatId(), payload);
             restTemplate.getForObject(employeeRequestUrl, String.class);
         });
+    }
+    public boolean isEmployeeInUpdates(Long employeeId, List<Update> updates) {
+        Employee employee = employeeService.getEmployeeById(employeeId);
+        return updates.stream().anyMatch(update -> update.getMessage().getText().equals(employee.getPhone()));
     }
 }

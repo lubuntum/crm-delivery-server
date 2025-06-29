@@ -12,7 +12,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     Account findByEmail(String email);
 
     @Query("SELECT new com.delivery.mydelivery.dto.auth.AccountData(" +
-            "a.id, a.email, r.name, " +
+            "a.id, e.chatId, a.email, r.name, " +
             "e.name, e.secondName, e.patronymic, " +
             "e.phone, o.name, o.id, ac.name) " +
             "FROM Account a " +
@@ -24,7 +24,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     AccountData findAccountDataById(Long id);
 
     @Query("SELECT new com.delivery.mydelivery.dto.auth.AccountData(" +
-            "a.id, a.email, r.name, " +
+            "a.id, e.chatId, a.email, r.name, " +
             "e.name, e.secondName, e.patronymic, " +
             "e.phone, o.name, o.id, ac.name) " +
             "FROM Account a " +

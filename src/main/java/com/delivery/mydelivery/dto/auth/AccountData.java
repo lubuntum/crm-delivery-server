@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AccountData {
     private Long id;
+    private String chatId;
     private String email;
     private RoleEnum role;
     private String employeeName;

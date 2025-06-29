@@ -14,6 +14,7 @@ import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
 import com.delivery.mydelivery.dto.productmanage.ItemDTO;
 import com.delivery.mydelivery.dto.productmanage.ItemMapper;
 import com.delivery.mydelivery.services.jwt.JwtService;
+import com.delivery.mydelivery.tgbot.TelegramBotService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,14 @@ public class OrderController {
     private JwtService jwtService;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private TelegramBotService telegramBotService;
     @PostMapping("/create-order")
     ResponseEntity<Long> createOrder(@RequestHeader("Authorization") String token,
                                      @RequestBody ClientOrderDTO clientOrderDTO){
         clientOrderDTO.setClientId(clientService.createClientIfNotExists(clientOrderDTO.extractClientData()));
         clientOrderDTO.setOrganizationId(accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId());
+        telegramBotService.sendNotifications(clientOrderDTO);
         return ResponseEntity.ok(orderService.createOrder(clientOrderDTO));
     }
     @PatchMapping("/update-order")

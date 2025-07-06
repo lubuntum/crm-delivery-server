@@ -1,18 +1,12 @@
 package com.delivery.mydelivery.controllers.organization;
 
 import com.delivery.mydelivery.annotation.accountmanage.CheckStatus;
-import com.delivery.mydelivery.annotation.accountmanage.HasRole;
-import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
-import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
-import com.delivery.mydelivery.database.entities.productmanage.Material;
 import com.delivery.mydelivery.database.projections.MaterialProjection;
 import com.delivery.mydelivery.database.projections.ordermanage.OrdersTotalStats;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
-import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.database.services.productmanage.MaterialService;
-import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
-import com.delivery.mydelivery.dto.organization.OrganizationDTO;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.productmanage.MaterialDTO;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;

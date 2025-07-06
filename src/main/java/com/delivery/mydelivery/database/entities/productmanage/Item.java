@@ -2,6 +2,8 @@ package com.delivery.mydelivery.database.entities.productmanage;
 
 import com.delivery.mydelivery.database.entities.orderimages.OrderImage;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

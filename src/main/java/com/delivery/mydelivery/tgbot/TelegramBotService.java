@@ -6,7 +6,7 @@ import com.delivery.mydelivery.database.entities.accountmanage.Employee;
 import com.delivery.mydelivery.database.entities.organization.Organization;
 import com.delivery.mydelivery.database.services.accountmanage.EmployeeService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
-import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestTemplate;

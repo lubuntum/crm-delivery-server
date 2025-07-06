@@ -4,6 +4,8 @@ import com.delivery.mydelivery.database.entities.accountmanage.Client;
 import com.delivery.mydelivery.database.entities.ordermanage.status.Status;
 import com.delivery.mydelivery.database.entities.organization.Organization;
 import com.delivery.mydelivery.database.entities.productmanage.Item;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

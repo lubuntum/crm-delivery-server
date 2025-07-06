@@ -33,7 +33,7 @@ public class AccountService {
     private OrganizationService organizationService;
     @Autowired
     private JwtService jwtService;
-
+    /*TODO make auth and registration by email not case sensitive*/
     public String validateAuthCredential(AuthCredential authCredential) {
         Account account = accountRepository.findByEmail(authCredential.getEmail());
         if (account == null) throw new RuntimeException();

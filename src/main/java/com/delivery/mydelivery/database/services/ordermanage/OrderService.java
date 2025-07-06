@@ -9,8 +9,9 @@ import com.delivery.mydelivery.database.projections.ordermanage.OrdersTotalStats
 import com.delivery.mydelivery.database.repositories.ordermanage.OrderRepository;
 import com.delivery.mydelivery.database.services.accountmanage.ClientService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
-import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderMapper;
 import com.delivery.mydelivery.utility.serialnumber.SerialNumberFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -36,6 +38,12 @@ public class OrderService {
     }
     public Long getTotalCountByOrganizationId(Long organizationId) {
         return orderRepository.countByOrganizationId(organizationId);
+    }
+    public List<ClientOrderDTO> getOrdersBetweenDatesForOrganization(LocalDateTime startDate, LocalDateTime endDate, Long organizationId) {
+        Organization organization = organizationService.getOrganizationById(organizationId);
+        List<ClientOrder> clientOrders = orderRepository.findByCreatedAtBetweenAndOrganization(startDate, endDate, organization);
+        return clientOrders.stream().map(ClientOrderMapper::toDTO).collect(Collectors.toList());
+
     }
     @Transactional
     public Long createOrder(ClientOrderDTO clientOrderDTO){

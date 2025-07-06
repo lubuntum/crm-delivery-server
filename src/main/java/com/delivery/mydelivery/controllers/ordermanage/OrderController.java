@@ -1,15 +1,14 @@
 package com.delivery.mydelivery.controllers.ordermanage;
 
+import com.delivery.mydelivery.annotation.accountmanage.HasRole;
+import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
-import com.delivery.mydelivery.database.entities.ordermanage.status.Status;
 import com.delivery.mydelivery.database.entities.ordermanage.status.StatusEnum;
-import com.delivery.mydelivery.database.entities.productmanage.Item;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.ClientService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
-import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.database.services.productmanage.ItemService;
-import com.delivery.mydelivery.dto.ordermanage.ClientOrderDTO;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
 import com.delivery.mydelivery.dto.productmanage.ItemDTO;
 import com.delivery.mydelivery.dto.productmanage.ItemMapper;
@@ -22,8 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -67,6 +66,17 @@ public class OrderController {
     @GetMapping("/order/{id}")
     ResponseEntity<ClientOrderDTO> getOrderById(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getClientOrderDTOById(id));
+    }
+    @HasRole(RoleEnum.DIRECTOR)
+    @GetMapping("/orders-between-dates")
+    ResponseEntity<List<ClientOrderDTO>> getOrdersBetweenDates(@RequestHeader("Authorization") String token,
+                                                      @RequestParam(required = true) LocalDateTime startDate,
+                                                      @RequestParam(required = true) LocalDateTime endDate){
+        return ResponseEntity.ok(orderService.getOrdersBetweenDatesForOrganization(
+                startDate,
+                endDate,
+                accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId()));
+
     }
     @PostMapping("/items/create-item")
     ResponseEntity<ItemDTO> createItemForOrder(@RequestParam("itemDTOJson") String itemDTOJson,

@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.dto.ordermanage;
+package com.delivery.mydelivery.dto.ordermanage.clientorder;
 
 import com.delivery.mydelivery.database.entities.accountmanage.Client;
 import com.delivery.mydelivery.database.entities.ordermanage.status.StatusEnum;
@@ -27,6 +27,7 @@ public class ClientOrderDTO {
     private String clientEmail;
     private String clientPhone;
     private Long organizationId;
+    private Integer itemsCount;
 
     public Client extractClientData(){
         Client client = new Client();

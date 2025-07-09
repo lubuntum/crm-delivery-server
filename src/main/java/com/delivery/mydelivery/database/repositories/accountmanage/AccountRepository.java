@@ -16,10 +16,10 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             "e.name, e.secondName, e.patronymic, " +
             "e.phone, o.name, o.id, ac.name) " +
             "FROM Account a " +
-            "INNER JOIN role r " +
-            "INNER JOIN employee e " +
-            "INNER JOIN organization o " +
-            "INNER JOIN activeStatus ac " +
+            "JOIN role r " +
+            "JOIN employee e " +
+            "JOIN organization o " +
+            "JOIN activeStatus ac " +
             "WHERE a.id = :id")
     AccountData findAccountDataById(Long id);
 
@@ -28,10 +28,10 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             "e.name, e.secondName, e.patronymic, " +
             "e.phone, o.name, o.id, ac.name) " +
             "FROM Account a " +
-            "INNER JOIN role r " +
-            "INNER JOIN employee e " +
-            "INNER JOIN organization o " +
-            "INNER JOIN activeStatus ac " +
-            "WHERE e.organization.id = :organizationId")
+            "JOIN role r " +
+            "JOIN employee e " +
+            "JOIN organization o " +
+            "JOIN activeStatus ac " +
+            "WHERE e.organization.id = :organizationId AND ac.name<>DELETED")
     List<AccountData> findAccountDataByOrganizationId(Long organizationId);
 }

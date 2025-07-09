@@ -37,7 +37,7 @@ public class AccountService {
     public String validateAuthCredential(AuthCredential authCredential) {
         Account account = accountRepository.findByEmail(authCredential.getEmail());
         if (account == null) throw new RuntimeException();
-        if (account.getActiveStatus().getName() == ActiveStatusEnum.DISABLED) throw new AccessDeniedException("Account is disabled");
+        if (account.getActiveStatus().getName() != ActiveStatusEnum.ENABLED) throw new AccessDeniedException("Can't get access to auth data");
         if(!PasswordValidationUtil.validatePassword(authCredential.getPassword(), account.getPassword()))
             throw new RuntimeException();
         return jwtService.generateToken(String.valueOf(account.getId()));

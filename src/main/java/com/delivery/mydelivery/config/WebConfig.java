@@ -13,6 +13,8 @@ public class WebConfig implements WebMvcConfigurer {
     private Environment env;
     @Value("${images.folder}")
     private String imagesFolder;
+    @Value("${banners.folder}")
+    private String bannersFolder;
     public WebConfig(Environment env ) {
         this.env = env;
     }
@@ -32,5 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:" + imagesFolder + "/");
+        registry.addResourceHandler("/banners/**")
+                .addResourceLocations("file:" + bannersFolder + "/");
     }
 }

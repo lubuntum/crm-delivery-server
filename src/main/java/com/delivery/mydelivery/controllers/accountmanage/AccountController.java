@@ -4,9 +4,11 @@ import com.delivery.mydelivery.annotation.accountmanage.HasRole;
 import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.ActiveStatusEnum;
 import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
+import com.delivery.mydelivery.database.entities.news.News;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.EmployeeService;
 import com.delivery.mydelivery.database.services.accountmanage.RoleService;
+import com.delivery.mydelivery.database.services.news.NewsService;
 import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class AccountController {
     RoleService roleService;
     @Autowired
     JwtService jwtService;
+    @Autowired
+    NewsService newsService;
     @HasRole(RoleEnum.DIRECTOR)
     @GetMapping("/by-organization")
     public ResponseEntity<List<AccountData>> getAccountsByOrganization(@RequestHeader("Authorization") String token) {
@@ -50,6 +54,10 @@ public class AccountController {
         accountData.setOrganizationId(accountService.getOrganizationByAccountId(
                 Long.valueOf(jwtService.extractSubject(token))).getId());
         return ResponseEntity.ok(accountService.createAccount(accountData));
+    }
+    @GetMapping("/get-recent-news")
+    public ResponseEntity<News> getRecentNews(){
+        return ResponseEntity.ok(newsService.getRecentNews());
     }
 
 }

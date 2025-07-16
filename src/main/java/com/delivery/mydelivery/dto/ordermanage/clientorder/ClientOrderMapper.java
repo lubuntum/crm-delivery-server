@@ -12,10 +12,11 @@ public class ClientOrderMapper {
                 c.getId(), c.getSerialNumber(), c.getAddress(), c.getComment(), c.getCreatedAt(),
                 c.getStatus().getName(), calcTotalPriceForOrder(c),
                 c.getClient().getId(), c.getClient().getName(), c.getClient().getSecondName(), c.getClient().getPatronymic(),
-                c.getClient().getEmail(), c.getClient().getPhone(), c.getOrganization().getId(), c.getItems().size()
+                c.getClient().getEmail(), c.getClient().getPhone(), c.getOrganization().getId(), c.getItems() != null ? c.getItems().size() : 0
         );
     }
     private static BigDecimal calcTotalPriceForOrder(ClientOrder c) {
+        if (c.getItems() == null) return new BigDecimal(0);
         return c.getItems().stream().map(Item::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

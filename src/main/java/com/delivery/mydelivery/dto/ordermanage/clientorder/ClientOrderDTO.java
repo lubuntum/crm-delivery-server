@@ -41,11 +41,13 @@ public class ClientOrderDTO {
     @Override
     public String toString(){
         return String.format("📦 **Новая заявка на доставку!**\n\n" +
+                "🆔 **Номер заявки:** %s\n" +
                 "👤 **ФИО:** %s\n" +
                 "🏠 **Адрес доставки:** %s\n" +
                 "📞 **Номер телефона:** %s\n" +
                 "📝 **Комментарий диспетчера:** %s\n\n" +
                 "Пожалуйста, обработайте заявку как можно скорее!",
+                serialNumber,
                 String.format("%s %s %s", clientSecondName, clientName, clientPatronymic),
                 address,
                 clientPhone,

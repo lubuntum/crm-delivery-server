@@ -46,7 +46,7 @@ public class OrderService {
 
     }
     @Transactional
-    public Long createOrder(ClientOrderDTO clientOrderDTO){
+    public ClientOrder createOrder(ClientOrderDTO clientOrderDTO){
         ClientOrder clientOrder = new ClientOrder();
         Status status = statusService.getStatusByName(StatusEnum.CREATED);
         Client client = clientService.getClientById(clientOrderDTO.getClientId());
@@ -64,7 +64,7 @@ public class OrderService {
         clientOrder.setId(orderRepository.save(clientOrder).getId());
 
         clientOrder.setSerialNumber(SerialNumberFormatter.calcSerialNumber(getTotalCountByOrganizationId(organization.getId())));
-        return orderRepository.save(clientOrder).getId();
+        return orderRepository.save(clientOrder);
     }
     @Transactional
     public ClientOrderDTO updateOrder(ClientOrderDTO clientOrderDTO) {

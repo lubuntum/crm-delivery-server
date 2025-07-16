@@ -10,6 +10,7 @@ import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.productmanage.ItemService;
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderMapper;
 import com.delivery.mydelivery.dto.productmanage.ItemDTO;
 import com.delivery.mydelivery.dto.productmanage.ItemMapper;
 import com.delivery.mydelivery.services.jwt.JwtService;
@@ -42,12 +43,13 @@ public class OrderController {
     @Autowired
     private TelegramBotService telegramBotService;
     @PostMapping("/create-order")
-    ResponseEntity<Long> createOrder(@RequestHeader("Authorization") String token,
+    ResponseEntity<Boolean> createOrder(@RequestHeader("Authorization") String token,
                                      @RequestBody ClientOrderDTO clientOrderDTO){
         clientOrderDTO.setClientId(clientService.createClientIfNotExists(clientOrderDTO.extractClientData()));
         clientOrderDTO.setOrganizationId(accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId());
-        telegramBotService.sendNotifications(clientOrderDTO);
-        return ResponseEntity.ok(orderService.createOrder(clientOrderDTO));
+        //parse returned entity with serial number
+        telegramBotService.sendNotifications(ClientOrderMapper.toDTO(orderService.createOrder(clientOrderDTO)));
+        return ResponseEntity.ok(true);
     }
     @PatchMapping("/update-order")
     ResponseEntity<ClientOrderDTO> updateOrder(@RequestBody ClientOrderDTO clientOrderDTO){

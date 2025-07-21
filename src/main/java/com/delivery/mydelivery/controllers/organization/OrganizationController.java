@@ -1,14 +1,21 @@
 package com.delivery.mydelivery.controllers.organization;
 
 import com.delivery.mydelivery.annotation.accountmanage.CheckStatus;
+import com.delivery.mydelivery.annotation.accountmanage.HasRole;
+import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
+import com.delivery.mydelivery.database.entities.organization.OrganizationDetails;
 import com.delivery.mydelivery.database.projections.MaterialProjection;
 import com.delivery.mydelivery.database.projections.ordermanage.OrdersTotalStats;
+import com.delivery.mydelivery.database.projections.organization.OrganizationDetailsProjection;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
+import com.delivery.mydelivery.database.services.organization.OrganizationDetailsService;
+import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.database.services.productmanage.MaterialService;
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.productmanage.MaterialDTO;
 import com.delivery.mydelivery.services.jwt.JwtService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +32,8 @@ public class OrganizationController {
 
     @Autowired
     MaterialService materialService;
+    @Autowired
+    OrganizationDetailsService organizationDetailsService;
     @Autowired
     JwtService jwtService;
 
@@ -60,6 +69,21 @@ public class OrganizationController {
                 .getRemainOrdersStatsByOrganizationId(
                         accountService.getOrganizationByAccountId(
                                 Long.valueOf(jwtService.extractSubject(token))).getId()));
+    }
+    @GetMapping("/organization-details")
+    public ResponseEntity<OrganizationDetailsProjection> getOrganizationDetails(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(organizationDetailsService.getOrganizationDetailsByOrganizationId(
+                accountService.getOrganizationByAccountId(
+                        Long.valueOf(jwtService.extractSubject(token))).getId()));
+    }
+    @HasRole(RoleEnum.DIRECTOR)
+    @PostMapping("/update-organization-details")
+    public ResponseEntity<Boolean> updateOrganizationDetails(@RequestHeader("Authorization") String token, @RequestBody OrganizationDetails organizationDetails) {
+        organizationDetails.setOrganization(
+                accountService.getOrganizationByAccountId(
+                        Long.valueOf(jwtService.extractSubject(token))));
+        organizationDetailsService.updateOrganizationDetails(organizationDetails);
+        return ResponseEntity.ok(true);
     }
 
 }

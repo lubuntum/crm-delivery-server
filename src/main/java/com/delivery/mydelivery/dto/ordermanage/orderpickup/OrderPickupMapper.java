@@ -9,6 +9,7 @@ public class OrderPickupMapper {
         dto.setTakenAt(orderPickup.getTakenAt());
         dto.setComment(orderPickup.getComment());
         dto.setItemsCount(orderPickup.getItemsCount());
+        dto.setAgreementUrl(orderPickup.getAgreementUrl());
         dto.setOrderId(orderPickup.getClientOrder().getId());
         dto.setCourierId(orderPickup.getCourier().getId());
         dto.setOrderImages(orderPickup.getOrderImages());

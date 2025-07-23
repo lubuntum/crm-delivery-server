@@ -27,7 +27,8 @@ public class OrderPickup {
     private String comment;
     @Column(name = "items_count")
     private Integer itemsCount;
-
+    @Column(name = "agreement_url")
+    private String agreementUrl;
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private ClientOrder clientOrder;

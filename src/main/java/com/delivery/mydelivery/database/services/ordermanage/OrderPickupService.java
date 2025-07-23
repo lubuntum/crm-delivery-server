@@ -50,6 +50,7 @@ public class OrderPickupService {
 
         orderPickup.setComment(orderPickupDTO.getComment());
         orderPickup.setItemsCount(orderPickupDTO.getItemsCount());
+        orderPickup.setAgreementUrl(orderPickupDTO.getAgreementUrl());
         orderPickup.setClientOrder(clientOrder);
         orderPickup.setCourier(employee);
         orderPickup.setOrderImages(orderImageService.saveImages(orderPickupDTO.getImagesTemp()));

@@ -19,6 +19,7 @@ public class OrderPickupDTO {
     private LocalDateTime takenAt;
     private String comment;
     private Integer itemsCount;
+    private String agreementUrl;
     private Long orderId;
     private Long courierId;
     private List<OrderImage> orderImages;

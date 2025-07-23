@@ -15,6 +15,11 @@ public class WebConfig implements WebMvcConfigurer {
     private String imagesFolder;
     @Value("${banners.folder}")
     private String bannersFolder;
+    //where agreements docs is stored
+    @Value("${documents.agreements}")
+    private String documentsAgreements;
+    @Value("${web.documents.agreements}")
+    private String webDocumentsAgreements;
     public WebConfig(Environment env ) {
         this.env = env;
     }
@@ -36,5 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:" + imagesFolder + "/");
         registry.addResourceHandler("/banners/**")
                 .addResourceLocations("file:" + bannersFolder + "/");
+        registry.addResourceHandler("/" + webDocumentsAgreements + "**")
+                .addResourceLocations("file:" + documentsAgreements + "/");
     }
 }

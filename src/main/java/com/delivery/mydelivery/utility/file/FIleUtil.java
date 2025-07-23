@@ -40,7 +40,7 @@ public class FIleUtil {
         //int randomNumber = new Random().nextInt(1000);
         return String.valueOf(currentTimeMillis);
     }
-    private static String generateUniqueFilename(String filename) {
+    public static String generateUniqueFilename(String filename) {
         String prefix = generateUniquePrefix();
         String baseName = filename.substring(0, filename.lastIndexOf("."));
         int lastDotIndex = filename.lastIndexOf(".");
@@ -52,7 +52,7 @@ public class FIleUtil {
         String fileExtension = filename.substring(filename.lastIndexOf("."));
         return baseName + "_" + prefix + fileExtension;
     }
-    private static String getStaticPath(String absolutePath){
+    public static String getStaticPath(String absolutePath){
         String path = Paths.get(absolutePath).getFileName().toString();
         return (!path.endsWith("/")) ? path+"/" : path;
     }

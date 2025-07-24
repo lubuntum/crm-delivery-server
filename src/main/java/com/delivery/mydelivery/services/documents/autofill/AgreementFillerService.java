@@ -78,7 +78,7 @@ public class AgreementFillerService {
         fields.put("name", order.getClient().getName());
         fields.put("patronymic", order.getClient().getPatronymic());
         fields.put("clientaddress", order.getAddress());
-        fields.put("clientphonenumber", order.getClient().getPhone());
+        fields.put("clientphone", order.getClient().getPhone());
         fields.put("itemscount", String.valueOf(orderPickupDTO.getItemsCount()));
         fields.put("couriercomment", orderPickupDTO.getComment());
         //more...

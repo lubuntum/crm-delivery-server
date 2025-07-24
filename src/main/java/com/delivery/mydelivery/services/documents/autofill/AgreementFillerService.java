@@ -46,6 +46,7 @@ public class AgreementFillerService {
         ClientOrder order = orderService.getClientOrderById(orderPickupDTO.getOrderId());
         OrganizationDetailsProjection organizationDetailsProjection =
                 organizationDetailsService.getOrganizationDetailsByOrganizationId(order.getOrganization().getId());
+        if (organizationDetailsProjection == null) return;
         XWPFDocument agreementDocs =
                 DocxFillerUtil.fillDocx(agreementTemplate, extractFieldsData(organizationDetailsProjection, order, orderPickupDTO));
         String fileName = FIleUtil.generateUniqueFilename("agreement.docx");

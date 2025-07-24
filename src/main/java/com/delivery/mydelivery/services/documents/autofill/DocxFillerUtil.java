@@ -1,9 +1,7 @@
 package com.delivery.mydelivery.services.documents.autofill;
 
 
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,6 +13,20 @@ public class DocxFillerUtil {
         try (FileInputStream fis = new FileInputStream(templatePath)) {
             document = new XWPFDocument(fis);
         }
+
+        for (XWPFTable table : document.getTables())
+            for (int rowIndex = 0; rowIndex < table.getNumberOfRows(); rowIndex++)
+                for (XWPFTableCell cell : table.getRow(rowIndex).getTableCells())
+                    // Process paragraphs in each cell
+                    for (XWPFParagraph paragraph : cell.getParagraphs())
+                        for (XWPFRun run : paragraph.getRuns()) {
+                            String text = run.getText(0);
+                            if (text != null)
+                                for (Map.Entry<String, String> entry : fields.entrySet()) {
+                                    text = text.replace(entry.getKey(), entry.getValue());
+                                run.setText(text, 0);
+                            }
+                        }
         for(XWPFParagraph paragraph: document.getParagraphs()) {
             for (XWPFRun run: paragraph.getRuns()) {
                 String text = run.getText(0);

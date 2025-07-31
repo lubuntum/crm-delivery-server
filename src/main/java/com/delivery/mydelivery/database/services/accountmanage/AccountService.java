@@ -1,5 +1,6 @@
 package com.delivery.mydelivery.database.services.accountmanage;
 
+import com.delivery.mydelivery.config.EnvPropertiesConfig;
 import com.delivery.mydelivery.database.entities.accountmanage.Account;
 import com.delivery.mydelivery.database.entities.accountmanage.Employee;
 import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.ActiveStatus;
@@ -14,6 +15,7 @@ import com.delivery.mydelivery.dto.auth.AuthCredential;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import com.delivery.mydelivery.utility.password.PasswordValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,8 @@ public class AccountService {
     private EmployeeService employeeService;
     @Autowired
     private OrganizationService organizationService;
+    @Autowired
+    Environment env;
     @Autowired
     private JwtService jwtService;
     /*TODO make auth and registration by email not case sensitive*/
@@ -96,7 +100,7 @@ public class AccountService {
         account.setActiveStatus(activeStatus);
         account.setEmail(accountData.getEmail());
         account.setEmployee(employee);
-        account.setPassword(PasswordValidationUtil.hashPassword("123456"));
+        account.setPassword(PasswordValidationUtil.hashPassword(env.getProperty(EnvPropertiesConfig.DEFAULT_PASSWORD)));
         account.setRole(role);
         return accountRepository.save(account).getId();
     }

@@ -1,6 +1,7 @@
 package com.delivery.mydelivery.controllers.accountmanage;
 
 import com.delivery.mydelivery.annotation.accountmanage.HasRole;
+import com.delivery.mydelivery.config.EnvPropertiesConfig;
 import com.delivery.mydelivery.database.entities.accountmanage.accountstatus.ActiveStatusEnum;
 import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
@@ -9,9 +10,12 @@ import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.EmployeeService;
 import com.delivery.mydelivery.database.services.accountmanage.RoleService;
 import com.delivery.mydelivery.database.services.news.NewsService;
+import com.delivery.mydelivery.dto.accountmanage.AccountResetData;
 import com.delivery.mydelivery.dto.auth.AccountData;
+import com.delivery.mydelivery.dto.auth.AuthCredential;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +34,8 @@ public class AccountController {
     JwtService jwtService;
     @Autowired
     NewsService newsService;
+    @Autowired
+    Environment env;
     @HasRole(RoleEnum.DIRECTOR)
     @GetMapping("/by-organization")
     public ResponseEntity<List<AccountData>> getAccountsByOrganization(@RequestHeader("Authorization") String token) {
@@ -58,6 +64,14 @@ public class AccountController {
     @GetMapping("/get-recent-news")
     public ResponseEntity<News> getRecentNews(){
         return ResponseEntity.ok(newsService.getRecentNews());
+    }
+    @HasRole(RoleEnum.DIRECTOR)
+    @PostMapping("/reset-password")
+    public ResponseEntity<Boolean> resetPasswordForAccount(@RequestBody AccountResetData accountResetData) {
+        return ResponseEntity.ok(
+                accountService.updatePassword(
+                        accountResetData.getAccountId(),
+                        env.getProperty(EnvPropertiesConfig.DEFAULT_PASSWORD)));
     }
 
 }

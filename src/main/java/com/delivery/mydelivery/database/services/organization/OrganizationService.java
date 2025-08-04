@@ -45,4 +45,7 @@ public class OrganizationService {
                 .map(OrganizationMapper::toDTO)
                 .collect(Collectors.toList());
     }
+    public void save(Organization organization) {
+        organizationRepository.save(organization);
+    }
 }

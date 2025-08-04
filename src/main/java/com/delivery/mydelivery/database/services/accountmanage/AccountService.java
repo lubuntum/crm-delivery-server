@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -110,5 +111,27 @@ public class AccountService {
             throw new IllegalArgumentException("Role not found: " + roleName);
         Account account = getAccountById(accountId);
         return account != null && account.getRole().getId().equals(role.getId());
+    }
+    @Transactional
+    public boolean updateAccountData(AccountData accountData) {
+        Account account = accountRepository.findById(accountData.getId()).orElseThrow(NullPointerException::new);
+        Employee employee = account.getEmployee();
+        Organization organization = account.getEmployee().getOrganization();
+        boolean updated = false;
+        if (accountData.getPhone() != null
+                && !accountData.getPhone().equals(employee.getPhone())) {
+            employee.setPhone(accountData.getPhone());
+            updated = true;
+        }
+        if (accountData.getOrganizationName() != null
+                && !accountData.getOrganizationName().equals(organization.getName())){
+            organization.setName(accountData.getOrganizationName());
+            updated = true;
+        }
+
+        //organizationService.save(organization);
+        //employeeService.save(employee);
+        //accountRepository.save(account);
+        return updated;
     }
 }

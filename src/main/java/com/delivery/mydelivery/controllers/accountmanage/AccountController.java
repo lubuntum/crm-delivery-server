@@ -73,5 +73,8 @@ public class AccountController {
                         accountResetData.getAccountId(),
                         env.getProperty(EnvPropertiesConfig.DEFAULT_PASSWORD)));
     }
-
+    @PostMapping("/update")
+    public ResponseEntity<Boolean> updateAccountData(@RequestBody AccountData accountData) {
+        return ResponseEntity.ok(accountService.updateAccountData(accountData));
+    }
 }

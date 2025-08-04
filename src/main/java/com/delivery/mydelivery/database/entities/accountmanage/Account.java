@@ -28,7 +28,7 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private ActiveStatus activeStatus;
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "employee_id", nullable = true)
     private Employee employee;
 }

@@ -28,7 +28,7 @@ public class Employee {
     private String phone;
     @Column(name = "chat_id")
     private String chatId;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)

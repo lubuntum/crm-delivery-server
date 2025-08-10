@@ -7,6 +7,7 @@ import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.news.NewsService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
+import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.organization.OrganizationDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +34,11 @@ public class AdminController {
     NewsService newsService;
     @Autowired
     OrderService orderService;
+    @HasRole(RoleEnum.ADMIN)
+    @GetMapping("/organization/accounts")
+    public ResponseEntity<List<AccountData>> getAccountsByOrganizationId(@RequestParam("organizationId")Long organizationId) {
+        return ResponseEntity.ok(accountService.getAccountsDataByOrganizationId(organizationId));
+    }
     @HasRole(RoleEnum.ADMIN)
     @PostMapping("/organization/create")
     public ResponseEntity<Boolean> createOrganization(@RequestBody OrganizationDTO organizationDTO) {

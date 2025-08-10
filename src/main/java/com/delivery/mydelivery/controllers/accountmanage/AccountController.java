@@ -44,7 +44,7 @@ public class AccountController {
                         accountService.getOrganizationByAccountId(
                                 Long.valueOf(jwtService.extractSubject(token))).getId()));
     }
-    @HasRole(RoleEnum.DIRECTOR)
+    @HasRole({RoleEnum.DIRECTOR, RoleEnum.ADMIN})
     @PostMapping("/update-status")
     public ResponseEntity<ActiveStatusEnum> updateAccountStatus(@RequestBody AccountData accountData) {
         return ResponseEntity.ok(accountService.updateAccountStatus(accountData.getId(), accountData.getAccountStatus()));

@@ -14,6 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 @Aspect
 @Component
 public class RoleAspect {
@@ -29,7 +32,9 @@ public class RoleAspect {
             String jwtToken = (String) authentication.getCredentials();
             Long accountId = Long.valueOf(jwtService.extractSubject(jwtToken));
 
-            if (!accountService.checkRoleForAccountId(hasRole.value(), accountId)) throw new AccessDeniedException("Don't meet role requirements");
+            boolean hasAnyRole = Arrays.stream(hasRole.value()).anyMatch(role -> accountService.checkRoleForAccountId(role, accountId));
+            if (!hasAnyRole) throw new AccessDeniedException("Don't meet role requirements");
+            //if (!accountService.checkRoleForAccountId(hasRole.value(), accountId)) throw new AccessDeniedException("Don't meet role requirements");
         } catch (Exception e) {
             throw new AccessDeniedException(e.getMessage());
         }

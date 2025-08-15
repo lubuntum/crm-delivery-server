@@ -3,13 +3,16 @@ package com.delivery.mydelivery.controllers;
 import com.delivery.mydelivery.annotation.accountmanage.HasRole;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.entities.news.News;
+import com.delivery.mydelivery.database.entities.registrationrequest.RegistrationRequest;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.news.NewsService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.organization.OrganizationService;
+import com.delivery.mydelivery.database.services.registrationrequest.RegistrationRequestService;
 import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.organization.OrganizationDTO;
+import com.delivery.mydelivery.dto.registrationrequest.RegistrationRequestDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +37,14 @@ public class AdminController {
     NewsService newsService;
     @Autowired
     OrderService orderService;
+    @Autowired
+    RegistrationRequestService registrationRequestService;
     @HasRole(RoleEnum.ADMIN)
     @GetMapping("/organization/accounts")
     public ResponseEntity<List<AccountData>> getAccountsByOrganizationId(@RequestParam("organizationId")Long organizationId) {
         return ResponseEntity.ok(accountService.getAccountsDataByOrganizationId(organizationId));
     }
+    //TODO use createOrganization and then updateRegistrationRequestStatus
     @HasRole(RoleEnum.ADMIN)
     @PostMapping("/organization/create")
     public ResponseEntity<Boolean> createOrganization(@RequestBody OrganizationDTO organizationDTO) {
@@ -48,6 +54,13 @@ public class AdminController {
         accountService.createAccount(organizationDTO.getDirectorData());
         return ResponseEntity.ok(true);
     }
+    @HasRole(RoleEnum.ADMIN)
+    @PostMapping("/registration-request/update-status")
+    public ResponseEntity<Boolean> updateRegistrationRequestStatus(@RequestBody RegistrationRequestDTO registrationRequest) {
+        registrationRequestService.changeStatus(registrationRequest);
+        return ResponseEntity.ok(true);
+    }
+    //legacy better call update not change
     @HasRole(RoleEnum.ADMIN)
     @PostMapping("/organization/change-status")
     public ResponseEntity<Void> changeOrganizationActiveStatus(@RequestBody OrganizationDTO organizationDTO) {

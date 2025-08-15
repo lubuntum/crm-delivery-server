@@ -1,8 +1,10 @@
 package com.delivery.mydelivery.controllers;
 
 import com.delivery.mydelivery.database.entities.accountmanage.role.Role;
+import com.delivery.mydelivery.database.entities.registrationrequest.RegistrationRequest;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.accountmanage.RoleService;
+import com.delivery.mydelivery.database.services.registrationrequest.RegistrationRequestService;
 import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.dto.auth.AuthCredential;
 import com.delivery.mydelivery.services.jwt.JwtService;
@@ -11,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
@@ -23,6 +24,8 @@ public class AuthController {
     AccountService accountService;
     @Autowired
     JwtService jwtService;
+    @Autowired
+    RegistrationRequestService registrationRequestService;
     @PostMapping("/test")
     public ResponseEntity<List<Role>> testJwt(@RequestHeader("Authorization") String token) {
 
@@ -45,5 +48,10 @@ public class AuthController {
     @GetMapping("/account-data")
     public ResponseEntity<AccountData> getAccountData(@RequestHeader("Authorization") String token){
         return ResponseEntity.ok(accountService.getAccountData(Long.valueOf(jwtService.extractSubject(token))));
+    }
+    @PostMapping("/registration-request")
+    public ResponseEntity<Boolean> createRegistrationRequest(@RequestBody RegistrationRequest registrationRequest) {
+        registrationRequestService.createRegistrationRequest(registrationRequest);
+        return ResponseEntity.ok(true);
     }
 }

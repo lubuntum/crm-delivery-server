@@ -10,12 +10,10 @@ import com.delivery.mydelivery.database.projections.organization.OrganizationDet
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.organization.OrganizationDetailsService;
-import com.delivery.mydelivery.database.services.organization.OrganizationService;
 import com.delivery.mydelivery.database.services.productmanage.MaterialService;
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.productmanage.MaterialDTO;
 import com.delivery.mydelivery.services.jwt.JwtService;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

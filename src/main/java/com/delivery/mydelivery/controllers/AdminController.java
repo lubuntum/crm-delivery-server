@@ -4,6 +4,8 @@ import com.delivery.mydelivery.annotation.accountmanage.HasRole;
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
 import com.delivery.mydelivery.database.entities.news.News;
 import com.delivery.mydelivery.database.entities.registrationrequest.RegistrationRequest;
+import com.delivery.mydelivery.database.entities.registrationrequest.RequestStatus;
+import com.delivery.mydelivery.database.entities.registrationrequest.RequestStatusEnum;
 import com.delivery.mydelivery.database.services.accountmanage.AccountService;
 import com.delivery.mydelivery.database.services.news.NewsService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
@@ -59,6 +61,11 @@ public class AdminController {
     public ResponseEntity<Boolean> updateRegistrationRequestStatus(@RequestBody RegistrationRequestDTO registrationRequest) {
         registrationRequestService.changeStatus(registrationRequest);
         return ResponseEntity.ok(true);
+    }
+    @HasRole(RoleEnum.ADMIN)
+    @GetMapping("/registration-requests")
+    public ResponseEntity<List<RegistrationRequest>> getRegistrationRequestsByStatus(@RequestParam("status") RequestStatusEnum status) {
+        return ResponseEntity.ok(registrationRequestService.getRegistrationRequestsByStatus(status));
     }
     //legacy better call update not change
     @HasRole(RoleEnum.ADMIN)

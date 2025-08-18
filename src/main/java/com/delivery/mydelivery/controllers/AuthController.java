@@ -8,11 +8,13 @@ import com.delivery.mydelivery.database.services.registrationrequest.Registratio
 import com.delivery.mydelivery.dto.auth.AccountData;
 import com.delivery.mydelivery.dto.auth.AuthCredential;
 import com.delivery.mydelivery.services.jwt.JwtService;
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -51,7 +53,12 @@ public class AuthController {
     }
     @PostMapping("/registration-request")
     public ResponseEntity<Boolean> createRegistrationRequest(@RequestBody RegistrationRequest registrationRequest) {
-        registrationRequestService.createRegistrationRequest(registrationRequest);
+        try {
+            registrationRequestService.createRegistrationRequest(registrationRequest);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
+        }
+
         return ResponseEntity.ok(true);
     }
 }

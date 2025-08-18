@@ -1,6 +1,7 @@
 package com.delivery.mydelivery.database.services.registrationrequest;
 
 import com.delivery.mydelivery.database.entities.accountmanage.role.RoleEnum;
+import com.delivery.mydelivery.database.entities.ordermanage.status.StatusEnum;
 import com.delivery.mydelivery.database.entities.organization.Organization;
 import com.delivery.mydelivery.database.entities.registrationrequest.RegistrationRequest;
 import com.delivery.mydelivery.database.entities.registrationrequest.RequestStatus;
@@ -13,6 +14,8 @@ import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class RegistrationRequestService {
@@ -31,5 +34,9 @@ public class RegistrationRequestService {
         RegistrationRequest request = repository.findById(registrationRequestDTO.getId())
                 .orElseThrow(EntityNotFoundException::new);
         request.setRequestStatus(requestStatusService.getRequestStatusByName(registrationRequestDTO.getRequestStatus()));
+    }
+    public List<RegistrationRequest> getRegistrationRequestsByStatus(RequestStatusEnum status) {
+        RequestStatus requestStatus = requestStatusService.getRequestStatusByName(status);
+        return repository.findRegistrationRequestsByRequestStatus(requestStatus);
     }
 }

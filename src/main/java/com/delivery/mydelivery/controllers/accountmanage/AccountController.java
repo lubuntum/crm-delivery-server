@@ -65,7 +65,7 @@ public class AccountController {
     public ResponseEntity<News> getRecentNews(){
         return ResponseEntity.ok(newsService.getRecentNews());
     }
-    @HasRole(RoleEnum.DIRECTOR)
+    @HasRole({RoleEnum.DIRECTOR, RoleEnum.ADMIN})
     @PostMapping("/reset-password")
     public ResponseEntity<Boolean> resetPasswordForAccount(@RequestBody AccountResetData accountResetData) {
         return ResponseEntity.ok(

@@ -48,7 +48,10 @@ public class OrderService {
     @Transactional
     public ClientOrder createOrder(ClientOrderDTO clientOrderDTO){
         ClientOrder clientOrder = new ClientOrder();
-        Status status = statusService.getStatusByName(StatusEnum.CREATED);
+        Status status = clientOrderDTO.getStatus() != null ?
+                statusService.getStatusByName(clientOrderDTO.getStatus()) :
+                statusService.getStatusByName(StatusEnum.CREATED);
+        //Status status = statusService.getStatusByName(StatusEnum.CREATED);
         Client client = clientService.getClientById(clientOrderDTO.getClientId());
         Organization organization = organizationService.getOrganizationById(clientOrderDTO.getOrganizationId());
 

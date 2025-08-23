@@ -43,13 +43,14 @@ public class OrderController {
     @Autowired
     private TelegramBotService telegramBotService;
     @PostMapping("/create-order")
-    ResponseEntity<Boolean> createOrder(@RequestHeader("Authorization") String token,
+    ResponseEntity<Long> createOrder(@RequestHeader("Authorization") String token,
                                      @RequestBody ClientOrderDTO clientOrderDTO){
         clientOrderDTO.setClientId(clientService.createClientIfNotExists(clientOrderDTO.extractClientData()));
         clientOrderDTO.setOrganizationId(accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId());
         //parse returned entity with serial number
-        telegramBotService.sendNotifications(ClientOrderMapper.toDTO(orderService.createOrder(clientOrderDTO)));
-        return ResponseEntity.ok(true);
+        ClientOrder clientOrder = orderService.createOrder(clientOrderDTO);
+        telegramBotService.sendNotifications(ClientOrderMapper.toDTO(clientOrder));
+        return ResponseEntity.ok(clientOrder.getId());
     }
     @PatchMapping("/update-order")
     ResponseEntity<ClientOrderDTO> updateOrder(@RequestBody ClientOrderDTO clientOrderDTO){

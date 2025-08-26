@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,6 +27,10 @@ public class OrderFinish {
     private LocalDateTime deliveredAt;
     @Column(name = "items_count")
     private Integer itemsCount;
+    @Column(name = "tips")
+    private BigDecimal tips;
+    @Column(name = "delivery_price")
+    private BigDecimal deliveryPrice;
     @ManyToOne
     @JoinColumn(name = "payment_method_id", nullable = false)
     private PaymentMethod paymentMethod;

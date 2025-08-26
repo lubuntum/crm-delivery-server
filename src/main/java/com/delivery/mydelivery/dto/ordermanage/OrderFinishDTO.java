@@ -21,4 +21,6 @@ public class OrderFinishDTO {
     private LocalDateTime deliveredAt;
     private PaymentMethodEnum paymentMethod;
     private OrderCompleteDataDTO orderCompleteData;
+    private BigDecimal tips;
+    private BigDecimal deliveryPrice;
 }

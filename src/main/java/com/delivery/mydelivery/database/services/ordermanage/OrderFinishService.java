@@ -40,6 +40,8 @@ public class OrderFinishService {
         orderFinish.setComment(orderFinishDTO.getComment());
         orderFinish.setItemsCount(orderFinishDTO.getItemsCount());
         orderFinish.setPaymentMethod(paymentMethod);
+        orderFinish.setTips(orderFinishDTO.getTips());
+        orderFinish.setDeliveryPrice(orderFinishDTO.getDeliveryPrice());
         orderFinish.setClientOrder(clientOrder);
         orderFinish.setEmployee(employee);
         orderFinish.setId(orderFinishRepository.save(orderFinish).getId());

@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface OrderFinishRepository extends JpaRepository<OrderFinish, Long> {
     @Query("SELECT new com.delivery.mydelivery.dto.ordermanage.OrderFinishDTO( " +
             "of.id, of.clientOrder.id, of.employee.id, of.comment, " +
-            "of.itemsCount, of.deliveredAt, of.paymentMethod.name, null, of.tips, of.deliveryPrice) " +
+            "of.itemsCount, of.deliveredAt, of.paymentMethod.name, null, of.tips, of.deliveryPrice, of.completionUrl) " +
             "FROM OrderFinish of " +
             "WHERE of.clientOrder.id=:orderId")
     OrderFinishDTO findOrderFinishByOrderId(@Param("orderId") Long orderId);

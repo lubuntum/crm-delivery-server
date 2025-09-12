@@ -23,4 +23,5 @@ public class OrderFinishDTO {
     private OrderCompleteDataDTO orderCompleteData;
     private BigDecimal tips;
     private BigDecimal deliveryPrice;
+    private String completionUrl;
 }

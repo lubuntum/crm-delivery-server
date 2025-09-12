@@ -20,6 +20,10 @@ public class WebConfig implements WebMvcConfigurer {
     private String documentsAgreements;
     @Value("${web.documents.agreements}")
     private String webDocumentsAgreements;
+    @Value("${documents.completions}")
+    private String documentsCompletions;
+    @Value("${web.documents.completions}")
+    private String webDocumentsCompletions;
     public WebConfig(Environment env ) {
         this.env = env;
     }
@@ -43,5 +47,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:" + bannersFolder + "/");
         registry.addResourceHandler("/" + webDocumentsAgreements + "**")
                 .addResourceLocations("file:" + documentsAgreements + "/");
+        registry.addResourceHandler("/" + webDocumentsCompletions + "**")
+                .addResourceLocations("file:" + documentsCompletions + "/");
     }
 }

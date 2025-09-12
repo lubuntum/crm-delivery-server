@@ -49,7 +49,12 @@ public class OrderController {
         clientOrderDTO.setOrganizationId(accountService.getOrganizationByAccountId(Long.valueOf(jwtService.extractSubject(token))).getId());
         //parse returned entity with serial number
         ClientOrder clientOrder = orderService.createOrder(clientOrderDTO);
-        telegramBotService.sendNotifications(ClientOrderMapper.toDTO(clientOrder));
+        try{
+            telegramBotService.sendNotifications(ClientOrderMapper.toDTO(clientOrder));
+        } catch (RuntimeException e){
+            System.err.println(e.getMessage());
+        }
+
         return ResponseEntity.ok(clientOrder.getId());
     }
     @PatchMapping("/update-order")

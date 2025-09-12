@@ -1,4 +1,4 @@
-package com.delivery.mydelivery.services.documents.autofill;
+package com.delivery.mydelivery.services.documents.autofill.services;
 
 import com.delivery.mydelivery.database.entities.accountmanage.Client;
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
@@ -10,6 +10,7 @@ import com.delivery.mydelivery.database.services.ordermanage.OrderPickupService;
 import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.organization.OrganizationDetailsService;
 import com.delivery.mydelivery.dto.ordermanage.orderpickup.OrderPickupDTO;
+import com.delivery.mydelivery.services.documents.autofill.DocxFillerUtil;
 import com.delivery.mydelivery.services.metadata.ServerDataService;
 import com.delivery.mydelivery.utility.file.FIleUtil;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;

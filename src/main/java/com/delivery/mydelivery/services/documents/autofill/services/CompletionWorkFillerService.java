@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -63,8 +64,8 @@ public class CompletionWorkFillerService {
                 .map(Item::getPrice)
                 .filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal delivery = orderFinishDTO.getDeliveryPrice();
-        BigDecimal tips = orderFinishDTO.getTips();
+        BigDecimal delivery = Optional.ofNullable(orderFinishDTO.getDeliveryPrice()).orElse(BigDecimal.ZERO);
+        BigDecimal tips = Optional.ofNullable(orderFinishDTO.getTips()).orElse(BigDecimal.ZERO);
         BigDecimal totalPayment = itemsTotal.add(delivery).add(tips);
 
         Map<String, String> fields = new HashMap<>();

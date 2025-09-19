@@ -114,4 +114,7 @@ public class OrderService {
     public OrdersTotalStats getRemainOrdersStatsByOrganizationId(Long organizationId) {
         return orderRepository.findRemainOrdersStatsByOrganization(organizationId, LocalDateTime.now().minusDays(30));
     }
+    public List<ClientOrder> getCompletedOrdersBetweenDatesByOrganization(LocalDateTime startDate, LocalDateTime endDate, Long organizationId) {
+        return orderRepository.findCompletedOrdersBetweenDates(startDate, endDate, organizationId);
+    }
 }

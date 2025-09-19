@@ -52,4 +52,15 @@ public interface OrderRepository extends JpaRepository<ClientOrder, Long> {
                                                          @Param("startedAt") LocalDateTime startedAt);
 
     List<ClientOrder> findByCreatedAtBetweenAndOrganization(LocalDateTime startDate, LocalDateTime endDate, Organization organization);
+    @Query("SELECT co FROM ClientOrder co " +
+            "JOIN FETCH co.client c " +
+            "JOIN FETCH co.status s " +
+            "WHERE co.createdAt BETWEEN :startDate AND :endDate " +
+            "AND c.phone IS NOT NULL AND c.phone != '' " +
+            "AND s.name = 'COMPLETED' " +
+            "AND co.organization.id = :organizationId")
+    List<ClientOrder> findCompletedOrdersBetweenDates(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("organizationId") Long organizationId);
 }

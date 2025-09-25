@@ -66,13 +66,17 @@ public class CompletionWorkFillerService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal delivery = Optional.ofNullable(orderFinishDTO.getDeliveryPrice()).orElse(BigDecimal.ZERO);
         BigDecimal tips = Optional.ofNullable(orderFinishDTO.getTips()).orElse(BigDecimal.ZERO);
-        BigDecimal totalPayment = itemsTotal.add(delivery).add(tips);
+        BigDecimal discount = Optional.ofNullable(orderFinishDTO.getDiscount()).orElse(BigDecimal.ZERO);
+
+        BigDecimal discountedItems = itemsTotal.multiply(BigDecimal.ONE.subtract(discount));
+        BigDecimal totalPayment = discountedItems.add(delivery).add(tips);
 
         Map<String, String> fields = new HashMap<>();
         fields.put("ordernumber", clientOrder.getSerialNumber());
         fields.put("itemstotalprice", itemsTotal.toString());
         fields.put("delivery", delivery.toString());
         fields.put("tips", tips.toString());
+        fields.put("discount", orderFinishDTO.getDiscount().multiply(new BigDecimal(100)).toString());
         fields.put("totalpayment", totalPayment.toString());
         fields.put("clientfullname", String.format("%s %s %s",
                 clientOrder.getClient().getSecondName(),

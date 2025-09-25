@@ -33,6 +33,9 @@ public class OrderFinish {
     private BigDecimal deliveryPrice;
     @Column(name = "completion_url")
     private String completionUrl;
+    @Column(name = "discount", precision = 5, scale = 4)
+    private BigDecimal discount = BigDecimal.ZERO;
+
     @ManyToOne
     @JoinColumn(name = "payment_method_id", nullable = false)
     private PaymentMethod paymentMethod;

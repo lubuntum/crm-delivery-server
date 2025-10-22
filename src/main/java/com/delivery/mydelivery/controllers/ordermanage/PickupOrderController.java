@@ -50,4 +50,9 @@ public class PickupOrderController {
     public ResponseEntity<OrderPickupDTO> getOrderPickupByOrderId(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderPickupService.getOrderPickupByOrderId(orderId));
     }
+    //Use for cashing the data on users device
+    @GetMapping("/by-orders-id")
+    public ResponseEntity<List<OrderPickupDTO>> getOrderPickupListByOrdersIds(@RequestParam List<Long> ordersId) {
+        return ResponseEntity.ok(orderPickupService.getOrderPickupListByOrdersId(ordersId));
+    }
 }

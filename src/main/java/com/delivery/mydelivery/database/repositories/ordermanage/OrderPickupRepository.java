@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface OrderPickupRepository extends JpaRepository<OrderPickup, Long> {
     OrderPickupProjection findOrderPickupById(Long id);
     /*
@@ -19,4 +21,8 @@ public interface OrderPickupRepository extends JpaRepository<OrderPickup, Long> 
      */
 
     OrderPickup findOrderPickupByClientOrder(ClientOrder order);
+    @Query("SELECT new com.delivery.mydelivery.dto.ordermanage.orderpickup.OrderPickupDTO( " +
+            "op.id, op.takenAt, op.comment, op.itemsCount, op.agreementUrl, op.clientOrder.id, op.courier.id, null, null) " +
+            "FROM OrderPickup op WHERE op.clientOrder.id IN :ordersId")
+    List<OrderPickupDTO> findDTOsByOrderIdIn(@Param("ordersId") List<Long> ordersId);
 }

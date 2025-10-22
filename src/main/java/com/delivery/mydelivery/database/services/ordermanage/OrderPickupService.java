@@ -68,4 +68,7 @@ public class OrderPickupService {
         orderPickupRepository.save(orderPickup);
         return orderPickupDTO;
     }
+    public List<OrderPickupDTO> getOrderPickupListByOrdersId(List<Long> ordersId) {
+        return orderPickupRepository.findDTOsByOrderIdIn(ordersId);
+    }
 }

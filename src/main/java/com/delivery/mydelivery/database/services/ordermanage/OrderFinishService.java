@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class OrderFinishService {
     @Autowired
@@ -52,5 +54,8 @@ public class OrderFinishService {
     }
     public OrderFinishDTO getOrderFinishByOrderId(Long orderId) {
         return orderFinishRepository.findOrderFinishByOrderId(orderId);
+    }
+    public List<OrderFinishDTO> getOrderFinishListByOrdersId(List<Long> ordersId) {
+        return orderFinishRepository.findDTOsByOrderIdIn(ordersId);
     }
 }

@@ -12,6 +12,7 @@ import com.delivery.mydelivery.database.services.ordermanage.OrderService;
 import com.delivery.mydelivery.database.services.organization.OrganizationDetailsService;
 import com.delivery.mydelivery.database.services.productmanage.MaterialService;
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderWithItemsDTO;
 import com.delivery.mydelivery.dto.productmanage.MaterialDTO;
 import com.delivery.mydelivery.services.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,13 @@ public class OrganizationController {
     @CheckStatus
     public ResponseEntity<List<ClientOrderDTO>> getOrdersByOrganizationId(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(orderService.getAllOrdersByOrganizationId(
+                accountService.getOrganizationByAccountId(
+                        Long.valueOf(jwtService.extractSubject(token))).getId()));
+    }
+    @GetMapping("/orders-with-items")
+    @CheckStatus
+    public ResponseEntity<List<ClientOrderWithItemsDTO>> getOrdersWithItemsByOrganizationId(@RequestHeader("Authorization") String token) {
+        return ResponseEntity.ok(orderService.getAllOrdersWithItemsByOrganizationId(
                 accountService.getOrganizationByAccountId(
                         Long.valueOf(jwtService.extractSubject(token))).getId()));
     }

@@ -4,6 +4,7 @@ import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.organization.Organization;
 import com.delivery.mydelivery.database.projections.ordermanage.OrdersTotalStats;
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderWithItemsDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,6 +32,13 @@ public interface OrderRepository extends JpaRepository<ClientOrder, Long> {
             "AND co.createdAt >= :startedAt " +
             "AND co.isActive = true")
     List<ClientOrderDTO> findByOrganizationIdFromDate(@Param("organizationId") Long organizationId, @Param("startedAt")LocalDateTime startedAt);
+    @Query("SELECT co FROM ClientOrder co " +
+            "LEFT JOIN FETCH co.items items " +
+            "JOIN co.client c " +
+            "WHERE co.organization.id = :organizationId " +
+            "AND co.createdAt >= :startedAt " +
+            "AND co.isActive = true ")
+    List<ClientOrder> findByOrganizationIdFromDateWithItems(@Param("organizationId") Long organizationId, @Param("startedAt")LocalDateTime startedAt);
     @Query("SELECT new com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO( " +
             "co.id, co.serialNumber, co.address, co.comment, co.createdAt, co.status.name, co.totalPrice, " +
             "c.id ,c.name, c.secondName, c.patronymic, c.email, c.phone, co.organization.id, null ) " +

@@ -2,9 +2,12 @@ package com.delivery.mydelivery.dto.ordermanage.clientorder;
 
 import com.delivery.mydelivery.database.entities.ordermanage.ClientOrder;
 import com.delivery.mydelivery.database.entities.productmanage.Item;
+import com.delivery.mydelivery.dto.productmanage.ItemDTO;
+import com.delivery.mydelivery.dto.productmanage.ItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ClientOrderMapper {
     public static ClientOrderDTO toDTO(ClientOrder c) {
@@ -18,5 +21,16 @@ public class ClientOrderMapper {
     private static BigDecimal calcTotalPriceForOrder(ClientOrder c) {
         if (c.getItems() == null) return new BigDecimal(0);
         return c.getItems().stream().map(Item::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+    public static ClientOrderWithItemsDTO toWithItemsDTO(ClientOrder c) {
+        List<ItemDTO> items = c.getItems()
+                .stream()
+                .map(ItemMapper::toDTO).toList();
+        return new ClientOrderWithItemsDTO(
+                c.getId(), c.getSerialNumber(), c.getAddress(), c.getComment(), c.getCreatedAt(),
+                c.getStatus().getName(), calcTotalPriceForOrder(c),
+                c.getClient().getId(), c.getClient().getName(), c.getClient().getSecondName(), c.getClient().getPatronymic(),
+                c.getClient().getEmail(), c.getClient().getPhone(), c.getOrganization().getId(), c.getItems() != null ? c.getItems().size() : 0, items
+        );
     }
 }

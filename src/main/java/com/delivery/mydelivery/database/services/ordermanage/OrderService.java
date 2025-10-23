@@ -12,6 +12,7 @@ import com.delivery.mydelivery.database.services.organization.OrganizationServic
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderDTO;
 import com.delivery.mydelivery.dto.ordermanage.OrderStatusDTO;
 import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderMapper;
+import com.delivery.mydelivery.dto.ordermanage.clientorder.ClientOrderWithItemsDTO;
 import com.delivery.mydelivery.utility.serialnumber.SerialNumberFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,14 @@ public class OrderService {
     public List<ClientOrderDTO> getAllOrdersByOrganizationId(Long organizationId) {
         LocalDateTime startedAt = LocalDateTime.now().minusDays(30);
         return orderRepository.findByOrganizationIdFromDate(organizationId, startedAt);
+    }
+    //test it! make method in organizationController and test in postman
+    public List<ClientOrderWithItemsDTO> getAllOrdersWithItemsByOrganizationId(Long organizationId) {
+        LocalDateTime startedAt = LocalDateTime.now().minusDays(30);
+        return orderRepository.findByOrganizationIdFromDateWithItems(organizationId, startedAt)
+                .stream()
+                .map(ClientOrderMapper::toWithItemsDTO)
+                .toList();
     }
     public Long getTotalCountByOrganizationId(Long organizationId) {
         return orderRepository.countByOrganizationId(organizationId);

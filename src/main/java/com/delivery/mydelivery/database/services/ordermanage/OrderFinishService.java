@@ -11,6 +11,7 @@ import com.delivery.mydelivery.database.services.accountmanage.EmployeeWorkflowS
 import com.delivery.mydelivery.database.services.ordermanage.payment.PaymentMethodService;
 import com.delivery.mydelivery.dto.ordermanage.OrderFinishDTO;
 import jakarta.persistence.EntityExistsException;
+import jakarta.transaction.TransactionScoped;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +52,10 @@ public class OrderFinishService {
         orderFinish.setDiscount(orderFinishDTO.getDiscount());
         employeeWorkflowService.updateEmployeeWorkflow(orderFinishDTO);
         return orderFinish.getId();
+    }
+    @Transactional
+    public void createOrderFinishes(List<OrderFinishDTO> orderFinishDTOS) {
+        orderFinishDTOS.forEach(this::createOrderFinish);
     }
     public OrderFinishDTO getOrderFinishByOrderId(Long orderId) {
         return orderFinishRepository.findOrderFinishByOrderId(orderId);

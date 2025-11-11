@@ -126,4 +126,8 @@ public class OrderService {
     public List<ClientOrder> getCompletedOrdersBetweenDatesByOrganization(LocalDateTime startDate, LocalDateTime endDate, Long organizationId) {
         return orderRepository.findCompletedOrdersBetweenDates(startDate, endDate, organizationId);
     }
+    @Transactional
+    public void changeOrdersStatuses(List<OrderStatusDTO> orderStatusDTOS) {
+        orderStatusDTOS.forEach(this::changeOrderStatus);
+    }
 }

@@ -13,5 +13,6 @@ public class OrderControllerConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/orders/**");
+        registry.addInterceptor(jwtValidationInterceptor).addPathPatterns("/api/sync/**");
     }
 }

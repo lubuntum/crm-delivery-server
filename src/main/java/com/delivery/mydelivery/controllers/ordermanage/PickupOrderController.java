@@ -25,7 +25,6 @@ public class PickupOrderController {
     private ObjectMapper objectMapper;
     @Autowired
     private AgreementFillerService agreementFillerService;
-    //TODO before creating pickupOrder create agreement docs and get link to this file
     @PostMapping("/create")
     public ResponseEntity<Long> createOrderPickup(
             @RequestHeader("Authorization") String token,

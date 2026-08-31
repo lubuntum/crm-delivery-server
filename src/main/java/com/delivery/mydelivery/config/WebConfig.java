@@ -32,10 +32,19 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // ===== ONE RULE TO RULE THEM ALL =====
-        // ANY file in public folder is accessible
-        registry.addResourceHandler("/**")
+        // ===== SERVE ALL FILES FROM PUBLIC FOLDER =====
+        registry.addResourceHandler("/public/**")
                 .addResourceLocations("file:" + publicFolder);
+
+        // ===== LEGACY PATHS (no frontend changes needed) =====
+        registry.addResourceHandler("/banners/**")
+                .addResourceLocations("file:" + publicFolder + "banners/");
+
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:" + publicFolder + "images/");
+
+        registry.addResourceHandler("/documents/**")
+                .addResourceLocations("file:" + publicFolder + "documents/");
     }
 
     @Override

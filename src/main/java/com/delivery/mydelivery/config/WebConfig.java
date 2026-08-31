@@ -14,19 +14,8 @@ public class WebConfig implements WebMvcConfigurer {
     private Environment env;
     @Autowired
     JwtValidationInterceptor jwtValidationInterceptor;
-    @Value("${images.folder}")
-    private String imagesFolder;
-    @Value("${banners.folder}")
-    private String bannersFolder;
-    //where agreements docs is stored
-    @Value("${documents.agreements}")
-    private String documentsAgreements;
-    @Value("${web.documents.agreements}")
-    private String webDocumentsAgreements;
-    @Value("${documents.completions}")
-    private String documentsCompletions;
-    @Value("${web.documents.completions}")
-    private String webDocumentsCompletions;
+    @Value("${public.folder}")
+    private String publicFolder;
     public WebConfig(Environment env ) {
         this.env = env;
     }
@@ -43,14 +32,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:" + imagesFolder + "/");
-        registry.addResourceHandler("/banners/**")
-                .addResourceLocations("file:" + bannersFolder + "/");
-        registry.addResourceHandler("/" + webDocumentsAgreements + "**")
-                .addResourceLocations("file:" + documentsAgreements + "/");
-        registry.addResourceHandler("/" + webDocumentsCompletions + "**")
-                .addResourceLocations("file:" + documentsCompletions + "/");
+        // ===== ONE RULE TO RULE THEM ALL =====
+        // ANY file in public folder is accessible
+        registry.addResourceHandler("/**")
+                .addResourceLocations("file:" + publicFolder);
     }
 
     @Override
